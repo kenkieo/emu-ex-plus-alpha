@@ -22,7 +22,7 @@ endif
 
 # SDK level setup
 
-android_minSDK ?= 9
+android_minSDK ?= 14
 
 android_metadata_soName ?= main
 android_makefileOpts += android_metadata_soName=$(android_metadata_soName)
