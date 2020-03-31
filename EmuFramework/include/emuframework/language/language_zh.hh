@@ -1,4 +1,5 @@
-
+//防止被重复引用
+#pragma once;
 #include <string>
 #include <map>
 
@@ -8,7 +9,7 @@
 extern "C" {
 #endif
 
-std::map<std::string, std::string> language_zh = {
+const std::map<std::string, std::string> language_zh = {
     {"Load Game", "加载游戏"}
 };
 
