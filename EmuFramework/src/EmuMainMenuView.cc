@@ -25,7 +25,7 @@
 #include <emuframework/FilePicker.hh>
 #include <emuframework/StateSlotView.hh>
 #include <emuframework/OptionView.hh>
-#include <EmuControls/language/language.hh>
+#include <emuframework/language/language.hh>
 #include "EmuOptions.hh"
 #include <emuframework/InputManagerView.hh>
 #include <emuframework/TouchConfigView.hh>
