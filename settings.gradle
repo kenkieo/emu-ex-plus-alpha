@@ -1,0 +1,6 @@
+include ':android_lib'
+project(':android_lib').projectDir = new File("imagine/src/base/android/imagine-v9")
+//include ':virtual_lib'
+//include ':virtual_permission'
+//include ':plugin32'
+//include ':plugin64'
