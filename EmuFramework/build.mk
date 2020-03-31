@@ -33,7 +33,8 @@ RecentGameView.cc \
 Screenshot.cc \
 StateSlotView.cc \
 VideoImageEffect.cc \
-VideoImageOverlay.cc
+VideoImageOverlay.cc \
+lanugage.cc
 
 ifeq ($(emuFramework_onScreenControls), 1)
  SRC += TouchConfigView.cc \
