@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-static char *get_local_language(char *);
+char *get_local_language(char *);
 
 
 #ifdef __cplusplus

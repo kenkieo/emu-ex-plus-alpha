@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-const std::map<std::string, std::string> language_zh = {
+static std::map<std::string, std::string> language_zh = {
     {"Load Game", "加载游戏"}
 };
 
