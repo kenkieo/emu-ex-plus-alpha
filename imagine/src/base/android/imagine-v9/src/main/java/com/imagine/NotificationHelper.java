@@ -15,20 +15,24 @@
 
 package com.imagine;
 
-import android.app.*;
-import android.content.*;
-import android.support.v4.app.NotificationCompat;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+
+import androidx.core.app.NotificationCompat;
 
 final class NotificationHelper
 {
 	static void addNotification(Context ctx, String onShow, String title, String message)
 	{
-		NotificationManager notificationManager = (NotificationManager)ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-		int icon = ctx.getResources().getIdentifier("icon", "mipmap", ctx.getPackageName());
-		long when = System.currentTimeMillis();
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
-		Intent notificationIntent = new Intent(ctx, BaseActivity.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, notificationIntent, 0);
+		NotificationManager        notificationManager = (NotificationManager)ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+		int                        icon                = ctx.getResources().getIdentifier("icon", "mipmap", ctx.getPackageName());
+		long                       when                = System.currentTimeMillis();
+		NotificationCompat.Builder builder             = new NotificationCompat.Builder(ctx);
+		Intent                     notificationIntent  = new Intent(ctx, BaseActivity.class);
+		PendingIntent              contentIntent       = PendingIntent.getActivity(ctx, 0, notificationIntent, 0);
 		Notification notification =
 			builder.setContentIntent(contentIntent)
 				.setSmallIcon(icon)

@@ -15,28 +15,44 @@
 
 package com.imagine;
 
-import android.widget.*;
-import android.app.*;
-import android.content.*;
-import android.content.DialogInterface.*;
-import android.view.inputmethod.*;
-import android.graphics.drawable.*;
-import android.view.View.*;
-import android.os.*;
-import android.view.*;
-import android.graphics.*;
-import android.util.*;
-import android.hardware.*;
-import android.media.*;
-import android.net.*;
-import android.content.res.*;
-import android.view.inputmethod.InputMethodManager;
-import android.bluetooth.*;
-import android.content.pm.*;
-import java.lang.reflect.*;
-import java.io.*;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.app.ActivityCompat;
+import android.app.NativeActivity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.content.pm.Signature;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Icon;
+import android.media.AudioManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Vibrator;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 // This class is also named BaseActivity to prevent shortcuts from breaking with previous SDK < 9 APKs
 
