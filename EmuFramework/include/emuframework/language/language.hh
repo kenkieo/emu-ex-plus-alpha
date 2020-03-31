@@ -1,5 +1,5 @@
 //防止被重复引用
-#pragma once;
+#pragma once
 #include "emuframework/language/language_zh.hh"
 #include <string>
 #include <map>

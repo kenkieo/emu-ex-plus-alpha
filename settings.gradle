@@ -4,3 +4,5 @@ project(':android_lib').projectDir = new File("imagine/src/base/android/imagine-
 //include ':virtual_permission'
 //include ':plugin32'
 //include ':plugin64'
+include ':2600.emu'
+project(':2600.emu').projectDir = new File("2600.emu/target/android")
