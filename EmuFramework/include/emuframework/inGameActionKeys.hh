@@ -15,7 +15,7 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <imagine/language/language.hh>
+#include <emuframework/language/language.hh>
 namespace EmuControls
 {
 

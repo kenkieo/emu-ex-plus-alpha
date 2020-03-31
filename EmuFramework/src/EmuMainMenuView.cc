@@ -25,6 +25,7 @@
 #include <emuframework/FilePicker.hh>
 #include <emuframework/StateSlotView.hh>
 #include <emuframework/OptionView.hh>
+#include <EmuControls/language/language.hh>
 #include "EmuOptions.hh"
 #include <emuframework/InputManagerView.hh>
 #include <emuframework/TouchConfigView.hh>
@@ -33,7 +34,6 @@
 #include "privateInput.hh"
 #ifdef CONFIG_BLUETOOTH
 #include <imagine/bluetooth/sys.hh>
-#include <imagine/language/language.hh>
 #include <imagine/bluetooth/BluetoothInputDevScanner.hh>
 #endif
 #ifdef CONFIG_BLUETOOTH
