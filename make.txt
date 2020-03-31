@@ -1,0 +1,28 @@
+在linux底下运行
+#切换到路径 /home/work/emu
+export HOME=/home/work/emu
+export IMAGINE_PATH=$HOME/imagine
+export IMAGINE_SDK_PATH=$HOME/imagine-sdk
+export EMU_FRAMEWORK=$HOME/EmuFramework
+export EMU_2600=$HOME/2600.emu
+make -f $IMAGINE_PATH/android-java.mk install
+#配置java环境,android SDK NDK
+cd $IMAGINE_PATH/bundle/all
+bash makeAll-android.sh
+#到/tmp/imagine-bundle/libogg/libogg-1.3.4 执行sudo autoreconf -ivf
+#然后重新 bash makeAll-android.sh
+make -f $IMAGINE_PATH/android.mk install V=1 -j4
+
+cd $EMU_FRAMEWORK
+make -f $EMU_FRAMEWORK/android.mk install V=1 -j4
+#到/tmp/imagine-bundle/libogg/libogg-1.3.4 执行sudo autoreconf -ivf
+#出现 /home/work/emu-ex-plus-alpha-master/EmuFramework/lib/emuframework-debug.pc no found
+#请把 /home/work/emu-ex-plus-alpha-master/EmuFramework/pkgconfig/emuframework.pc复制过去，并修改参数
+#参数请参数打印出来的参数
+
+#编译apk包
+#在要编译的模拟器底下使用命令
+#如 /home/work/emu-ex-plus-alpha-master/2600.emu
+make -f $(EMU_2600)/android.mk V=1 -j4
+# 完成后复制到android studio底下重新生成apk
+#注意使用v4包可以用androidx替换，具体百度
