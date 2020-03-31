@@ -33,6 +33,7 @@
 #include "privateInput.hh"
 #ifdef CONFIG_BLUETOOTH
 #include <imagine/bluetooth/sys.hh>
+#include <imagine/language/language.hh>
 #include <imagine/bluetooth/BluetoothInputDevScanner.hh>
 #endif
 #ifdef CONFIG_BLUETOOTH
@@ -221,7 +222,7 @@ EmuMainMenuView::EmuMainMenuView(ViewAttachParams attach, bool customMenu):
 	TableView{appViewTitle(), attach, item},
 	loadGame
 	{
-		"Load Game",
+		language["Load Game"],
 		[this](Input::Event e)
 		{
 			pushAndShow(EmuFilePicker::makeForLoading(attachParams(), e), e, false);

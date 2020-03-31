@@ -15,6 +15,7 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
+#include <imagine/language/language.hh>
 namespace EmuControls
 {
 
@@ -24,7 +25,7 @@ typedef uint GameActionKeyArray[gameActionKeys];
 
 static const char *gameActionName[gameActionKeys] =
 {
-	"Load Game",
+	language["Load Game"],
 	"Open System Actions",
 	"Save State",
 	"Load State",
