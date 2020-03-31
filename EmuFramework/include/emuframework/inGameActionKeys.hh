@@ -25,7 +25,7 @@ typedef uint GameActionKeyArray[gameActionKeys];
 
 static const char *gameActionName[gameActionKeys] =
 {
-	language["Load Game"],
+    get_local_language("Load Game"),
 	"Open System Actions",
 	"Save State",
 	"Load State",

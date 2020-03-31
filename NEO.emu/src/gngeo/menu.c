@@ -1113,7 +1113,7 @@ void init_rom_browser_menu(void) {
 	ROM_DEF *drv = NULL;
 	//char name[32];
 	int nb_roms = 0;
-	rbrowser_menu = create_menu("Load Game", MENU_SMALL, NULL, NULL);
+	rbrowser_menu = create_menu(get_local_language("Load Game"), MENU_SMALL, NULL, NULL);
 
 
 	i = 0;

@@ -222,7 +222,7 @@ EmuMainMenuView::EmuMainMenuView(ViewAttachParams attach, bool customMenu):
 	TableView{appViewTitle(), attach, item},
 	loadGame
 	{
-		language["Load Game"],
+		get_local_language("Load Game"),
 		[this](Input::Event e)
 		{
 			pushAndShow(EmuFilePicker::makeForLoading(attachParams(), e), e, false);

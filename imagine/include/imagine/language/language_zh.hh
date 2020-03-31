@@ -1,6 +1,8 @@
 
+#include <string>
 #include <map>
 
-const std::map<char*, char*> language_zh;
+std::map<std::string, std::string> language_zh = {
+    {"Load Game", "加载游戏"}
+};
 
-language_zh["Load Game"] = "加载游戏"
