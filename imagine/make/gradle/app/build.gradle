@@ -18,7 +18,7 @@ allprojects {
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion METADATA_MIN_SDK
