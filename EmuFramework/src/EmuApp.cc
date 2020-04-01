@@ -45,7 +45,7 @@ public:
 			EmuSystem::gameIsRunning() ? 3u : 2u
 		}
 	{
-		setItem(0, get_local_language"Yes"), [](){ Base::exit(); });
+		setItem(0, get_local_language("Yes"), [](){ Base::exit(); });
 		setItem(1, get_local_language("No"), [](TextMenuItem &, View &view, Input::Event){ view.dismiss(); });
 		if(item.size() == 3)
 		{
