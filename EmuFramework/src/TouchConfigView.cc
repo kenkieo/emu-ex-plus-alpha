@@ -720,7 +720,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 		{
 			get_local_language("Size Units"),
 			(bool)optionTouchCtrlScaledCoordinates,
-			get_local_language("Physical (Millimeters)", "Scaled Points"),
+			get_local_language("Physical (Millimeters)"), get_local_language("Scaled Points"),
 			[this](BoolMenuItem &item, Input::Event e)
 			{
 				optionTouchCtrlScaledCoordinates = item.flipBoolValue(*this);
