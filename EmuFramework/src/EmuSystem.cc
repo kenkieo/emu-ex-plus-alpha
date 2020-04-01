@@ -19,6 +19,7 @@
 #include <emuframework/EmuAudio.hh>
 #include <emuframework/FileUtils.hh>
 #include <emuframework/FilePicker.hh>
+#include <emuframework/language/language.hh>
 #include <imagine/base/Base.hh>
 #include <imagine/fs/ArchiveFS.hh>
 #include <imagine/util/utility.h>
@@ -513,8 +514,8 @@ EmuSystem::Error EmuSystem::loadGameFromFile(GenericIO file, const char *name, O
 		}
 		if(!io)
 		{
-			//EmuApp::postErrorMessage("No recognized file extensions in archive");
-			return makeError("No recognized file extensions in archive");
+			//EmuApp::postErrorMessage(get_local_language("No recognized file extensions in archive"));
+			return makeError(get_local_language("No recognized file extensions in archive"));
 		}
 		closeAndSetupNew(name);
 		originalGameName_ = originalName;
