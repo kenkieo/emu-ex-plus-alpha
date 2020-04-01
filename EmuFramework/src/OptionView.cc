@@ -29,10 +29,10 @@
 using namespace IG;
 
 static constexpr bool USE_MOBILE_ORIENTATION_NAMES = Config::envIsAndroid || Config::envIsIOS;
-static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? "Landscape" : "90 Left";
-static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? "Landscape 2" : "90 Right";
-static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? "Portrait" : "Standard";
-static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? "Portrait 2" : "Upside Down";
+static const char *landscapeName = USE_MOBILE_ORIENTATION_NAMES ? get_local_language("Landscape") : get_local_language("90 Left");
+static const char *landscape2Name = USE_MOBILE_ORIENTATION_NAMES ? get_local_language("Landscape 2") : get_local_language("90 Right");
+static const char *portraitName = USE_MOBILE_ORIENTATION_NAMES ? get_local_language("Portrait") : get_local_language("Standard");
+static const char *portrait2Name = USE_MOBILE_ORIENTATION_NAMES ? get_local_language("Portrait 2") : get_local_language("Upside Down");
 
 static FS::PathString savePathStrToDescStr(char *savePathStr)
 {
@@ -40,7 +40,7 @@ static FS::PathString savePathStrToDescStr(char *savePathStr)
 	if(strlen(savePathStr))
 	{
 		if(string_equal(savePathStr, optionSavePathDefaultToken))
-			string_copy(desc, "Default");
+			string_copy(desc, get_local_language("Default"));
 		else
 		{
 			string_copy(desc, FS::basename(optionSavePath).data());
@@ -48,7 +48,7 @@ static FS::PathString savePathStrToDescStr(char *savePathStr)
 	}
 	else
 	{
-		string_copy(desc, "Same as Game");
+		string_copy(desc, get_local_language("Same as Game"));
 	}
 	return desc;
 }
@@ -74,7 +74,7 @@ BiosSelectMenu::BiosSelectMenu(const char *name, ViewAttachParams attach, FS::Pa
 	},
 	selectFile
 	{
-		"Select File",
+		get_local_language("Select File"),
 		[this](Input::Event e)
 		{
 			auto startPath = strlen(biosPathStr->data()) ? FS::dirname(*biosPathStr) : lastLoadPath;
@@ -92,7 +92,7 @@ BiosSelectMenu::BiosSelectMenu(const char *name, ViewAttachParams attach, FS::Pa
 	},
 	unset
 	{
-		"Unset",
+		get_local_language("Unset"),
 		[this]()
 		{
 			strcpy(biosPathStr->data(), "");
@@ -238,14 +238,14 @@ static const char *autoWindowPixelFormatStr()
 
 static void setWindowPixelFormat(PixelFormatID format)
 {
-	EmuApp::postMessage("Restart app for option to take effect");
+	EmuApp::postMessage(get_local_language("Restart app for option to take effect"));
 	optionWindowPixelFormat = format;
 }
 #endif
 
 static void setGPUMultiThreading(Gfx::Renderer::ThreadMode mode)
 {
-	EmuApp::postMessage("Restart app for option to take effect");
+	EmuApp::postMessage(get_local_language("Restart app for option to take effect"));
 	optionGPUMultiThreading = (int)mode;
 }
 
@@ -516,7 +516,7 @@ void AudioOptionView::loadStockItems()
 	if(!optionSoundRate.isConst)
 	{
 		audioRateItem.clear();
-		audioRateItem.emplace_back("Device Native",
+		audioRateItem.emplace_back(get_local_language("Device Native"),
 			[this](TextMenuItem &, View &parent, Input::Event)
 			{
 				setAudioRate(IG::AudioManager::nativeFormat().rate);
@@ -622,26 +622,26 @@ void GUIOptionView::loadStockItems()
 }
 
 VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
-	TableView{"Video Options", attach, item},
+	TableView{get_local_language("Video Options"), attach, item},
 	#ifdef __ANDROID__
 	androidTextureStorageItem
 	{
 		{
-			"Auto",
+			get_local_language("Auto"),
 			[this]()
 			{
 				setAndroidTextureStorage(OPTION_ANDROID_TEXTURE_STORAGE_AUTO);
 			}
 		},
 		{
-			"Standard",
+			get_local_language("Standard"),
 			[this]()
 			{
 				setAndroidTextureStorage(OPTION_ANDROID_TEXTURE_STORAGE_NONE);
 			}
 		},
 		{
-			"Graphic Buffer",
+			get_local_language("Graphic Buffer"),
 			[this](Input::Event e)
 			{
 				static auto setAndroidTextureStorageGraphicBuffer =
@@ -649,7 +649,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 					{
 						if(!setAndroidTextureStorage(OPTION_ANDROID_TEXTURE_STORAGE_GRAPHIC_BUFFER))
 						{
-							EmuApp::postErrorMessage("Not supported on this GPU");
+							EmuApp::postErrorMessage(get_local_language("Not supported on this GPU"));
 							return false;
 						}
 						return true;
@@ -657,9 +657,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 				if(!Gfx::Texture::isAndroidGraphicBufferStorageWhitelisted(renderer()))
 				{
 					auto ynAlertView = makeView<YesNoAlertView>(
-						"Setting Graphic Buffer improves performance but may hang or crash "
-						"the app depending on your device or GPU",
-						"OK", "Cancel");
+						get_local_language("Setting Graphic Buffer improves performance but may hang or crash ")
+						get_local_language("the app depending on your device or GPU"),
+						get_local_language("OK"), get_local_language("Cancel"));
 					ynAlertView->setOnYes(
 						[this](TextMenuItem &, View &view, Input::Event e)
 						{
@@ -684,12 +684,12 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"Surface Texture",
+			get_local_language("Surface Texture"),
 			[this]()
 			{
 				if(!setAndroidTextureStorage(OPTION_ANDROID_TEXTURE_STORAGE_SURFACE_TEXTURE))
 				{
-					EmuApp::postErrorMessage("Not supported on this GPU");
+					EmuApp::postErrorMessage(get_local_language("Not supported on this GPU"));
 					return false;
 				}
 				return true;
@@ -698,7 +698,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	androidTextureStorage
 	{
-		"GPU Copy Mode",
+		get_local_language("GPU Copy Mode"),
 		[this](int idx) -> const char*
 		{
 			if(idx == 0)
@@ -722,21 +722,21 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	#if defined CONFIG_BASE_SCREEN_FRAME_INTERVAL
 	frameIntervalItem
 	{
-		{"Full", [this]() { setFrameInterval(1); }},
+		{get_local_language("Full"), [this]() { setFrameInterval(1); }},
 		{"1/2", [this]() { setFrameInterval(2); }},
 		{"1/3", [this]() { setFrameInterval(3); }},
 		{"1/4", [this]() { setFrameInterval(4); }},
 	},
 	frameInterval
 	{
-		"Target Frame Rate",
+		get_local_language("Target Frame Rate"),
 		optionFrameInterval - 1,
 		frameIntervalItem
 	},
 	#endif
 	dropLateFrames
 	{
-		"Skip Late Frames",
+		get_local_language("Skip Late Frames"),
 		(bool)optionSkipLateFrames,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -763,7 +763,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	aspectRatio
 	{
-		"Aspect Ratio",
+		get_local_language("Aspect Ratio"),
 		0,
 		[](const MultiChoiceMenuItem &) -> int
 		{
@@ -779,9 +779,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 		{"100%", [this]() { setZoom(100); }},
 		{"90%", [this]() { setZoom(90); }},
 		{"80%", [this]() { setZoom(80); }},
-		{"Integer-only", [this]() { setZoom(optionImageZoomIntegerOnly); }},
-		{"Integer-only (Height)", [this]() { setZoom(optionImageZoomIntegerOnlyY); }},
-		{"Custom Value",
+		{get_local_language("Integer-only"), [this]() { setZoom(optionImageZoomIntegerOnly); }},
+		{get_local_language("Integer-only (Height)"), [this]() { setZoom(optionImageZoomIntegerOnlyY); }},
+		{get_local_language("Custom Value"),
 			[this](Input::Event e)
 			{
 				EmuApp::pushAndShowNewCollectValueInputView<int>(attachParams(), e, "Input 10 to 100", "",
@@ -796,7 +796,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 						}
 						else
 						{
-							EmuApp::postErrorMessage("Value not in range");
+							EmuApp::postErrorMessage(get_local_language("Value not in range"));
 							return false;
 						}
 					});
@@ -806,7 +806,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	zoom
 	{
-		"Content Zoom",
+		get_local_language("Content Zoom"),
 		[this](uint32_t idx) -> const char*
 		{
 			if(optionImageZoom <= 100)
@@ -833,7 +833,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 		{"100%", [this]() { setViewportZoom(100); }},
 		{"95%", [this]() { setViewportZoom(95); }},
 		{"90%", [this]() { setViewportZoom(90); }},
-		{"Custom Value",
+		{get_local_language("Custom Value"),
 			[this](Input::Event e)
 			{
 				EmuApp::pushAndShowNewCollectValueInputView<int>(attachParams(), e, "Input 50 to 100", "",
@@ -848,7 +848,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 						}
 						else
 						{
-							EmuApp::postErrorMessage("Value not in range");
+							EmuApp::postErrorMessage(get_local_language("Value not in range"));
 							return false;
 						}
 					});
@@ -858,7 +858,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	viewportZoom
 	{
-		"App Zoom",
+		get_local_language("App Zoom"),
 		[this](uint32_t idx)
 		{
 			return viewportZoomStr;
@@ -877,9 +877,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	imgFilter
 	{
-		"Image Interpolation",
+		get_local_language("Image Interpolation"),
 		(bool)optionImgFilter,
-		"None", "Linear",
+		get_local_language("None"), get_local_language("Linear"),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
 			optionImgFilter.val = item.flipBoolValue(*this);
@@ -890,14 +890,14 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	#ifdef CONFIG_GFX_OPENGL_SHADER_PIPELINE
 	imgEffectItem
 	{
-		{"Off", [this]() { setImgEffect(0); }},
-		{"hq2x", [this]() { setImgEffect(VideoImageEffect::HQ2X); }},
-		{"Scale2x", [this]() { setImgEffect(VideoImageEffect::SCALE2X); }},
-		{"Prescale 2x", [this]() { setImgEffect(VideoImageEffect::PRESCALE2X); }}
+		{get_local_language("Off"), [this]() { setImgEffect(0); }},
+		{get_local_language("hq2x"), [this]() { setImgEffect(VideoImageEffect::HQ2X); }},
+		{get_local_language("Scale2x"), [this]() { setImgEffect(VideoImageEffect::SCALE2X); }},
+		{get_local_language("Prescale 2x"), [this]() { setImgEffect(VideoImageEffect::PRESCALE2X); }}
 	},
 	imgEffect
 	{
-		"Image Effect",
+		get_local_language("Image Effect"),
 		[]()
 		{
 			switch(optionImgEffect)
@@ -913,16 +913,16 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	#endif
 	overlayEffectItem
 	{
-		{"Off", [this]() { setOverlayEffect(0); }},
-		{"Scanlines", [this]() { setOverlayEffect(VideoImageOverlay::SCANLINES); }},
-		{"Scanlines 2x", [this]() { setOverlayEffect(VideoImageOverlay::SCANLINES_2); }},
-		{"CRT Mask", [this]() { setOverlayEffect(VideoImageOverlay::CRT); }},
-		{"CRT", [this]() { setOverlayEffect(VideoImageOverlay::CRT_RGB); }},
-		{"CRT 2x", [this]() { setOverlayEffect(VideoImageOverlay::CRT_RGB_2); }}
+		{get_local_language("Off"), [this]() { setOverlayEffect(0); }},
+		{get_local_language("Scanlines"), [this]() { setOverlayEffect(VideoImageOverlay::SCANLINES); }},
+		{get_local_language("Scanlines 2x"), [this]() { setOverlayEffect(VideoImageOverlay::SCANLINES_2); }},
+		{get_local_language("CRT Mask"), [this]() { setOverlayEffect(VideoImageOverlay::CRT); }},
+		{get_local_language("CRT"), [this]() { setOverlayEffect(VideoImageOverlay::CRT_RGB); }},
+		{get_local_language("CRT 2x"), [this]() { setOverlayEffect(VideoImageOverlay::CRT_RGB_2); }}
 	},
 	overlayEffect
 	{
-		"Overlay Effect",
+		get_local_language("Overlay Effect"),
 		[]()
 		{
 			switch(optionOverlayEffect)
@@ -943,10 +943,10 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 		{"75%", [this]() { setOverlayEffectLevel(75); }},
 		{"50%", [this]() { setOverlayEffectLevel(50); }},
 		{"25%", [this]() { setOverlayEffectLevel(25); }},
-		{"Custom Value",
+		{get_local_language("Custom Value"),
 			[this](Input::Event e)
 			{
-				EmuApp::pushAndShowNewCollectValueInputView<int>(attachParams(), e, "Input 10 to 100", "",
+				EmuApp::pushAndShowNewCollectValueInputView<int>(attachParams(), e, get_local_language("Input 10 to 100"), "",
 					[this](auto val)
 					{
 						if(optionOverlayEffectLevel.isValidVal(val))
@@ -958,7 +958,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 						}
 						else
 						{
-							EmuApp::postErrorMessage("Value not in range");
+							EmuApp::postErrorMessage(get_local_language("Value not in range"));
 							return false;
 						}
 					});
@@ -968,7 +968,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	overlayEffectLevel
 	{
-		"Overlay Effect Level",
+		get_local_language("Overlay Effect Level"),
 		[this](uint32_t idx)
 		{
 			return overlayEffectLevelStr;
@@ -989,13 +989,13 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	#ifdef CONFIG_GFX_OPENGL_SHADER_PIPELINE
 	imgEffectPixelFormatItem
 	{
-		{"Auto", [this]() { setImgEffectPixelFormat(PIXEL_NONE); }},
+		{get_local_language("Auto"), [this]() { setImgEffectPixelFormat(PIXEL_NONE); }},
 		{"RGB565", [this]() { setImgEffectPixelFormat(PIXEL_RGB565); }},
 		{"RGBA8888", [this]() { setImgEffectPixelFormat(PIXEL_RGBA8888);}},
 	},
 	imgEffectPixelFormat
 	{
-		"Effect Color Format",
+		get_local_language("Effect Color Format"),
 		[](int idx) -> const char*
 		{
 			if(idx == 0)
@@ -1020,7 +1020,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	#ifdef EMU_FRAMEWORK_WINDOW_PIXEL_FORMAT_OPTION
 	windowPixelFormatItem
 	{
-		{"Auto", [this]() { setWindowPixelFormat(PIXEL_NONE); }},
+		{get_local_language("Auto"), [this]() { setWindowPixelFormat(PIXEL_NONE); }},
 		{"RGB565", [this]() { setWindowPixelFormat(PIXEL_RGB565); }},
 		{"RGB888", [this]() { setWindowPixelFormat(PIXEL_RGB888); }},
 		{"RGBX8888", [this]() { setWindowPixelFormat(PIXEL_RGBX8888); }},
@@ -1028,7 +1028,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	windowPixelFormat
 	{
-		"Display Color Format",
+		get_local_language("Display Color Format"),
 		[](int idx) -> const char*
 		{
 			if(idx == 0)
@@ -1066,9 +1066,9 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	#if defined CONFIG_BASE_MULTI_WINDOW && defined CONFIG_BASE_MULTI_SCREEN
 	showOnSecondScreen
 	{
-		"External Screen",
+		get_local_language("External Screen"),
 		(bool)optionShowOnSecondScreen,
-		"OS Managed", "Game Content",
+		get_local_language("OS Managed"), get_local_language("Game Content"),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
 			optionShowOnSecondScreen = item.flipBoolValue(*this);
@@ -1079,18 +1079,18 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 	#endif
 	gpuMultithreadingItem
 	{
-		{"Auto", [this]() { setGPUMultiThreading(Gfx::Renderer::ThreadMode::AUTO); }},
-		{"Off", [this]() { setGPUMultiThreading(Gfx::Renderer::ThreadMode::SINGLE); }},
-		{"On", [this]() { setGPUMultiThreading(Gfx::Renderer::ThreadMode::MULTI); }},
+		{get_local_language("Auto"), [this]() { setGPUMultiThreading(Gfx::Renderer::ThreadMode::AUTO); }},
+		{get_local_language("Off"), [this]() { setGPUMultiThreading(Gfx::Renderer::ThreadMode::SINGLE); }},
+		{get_local_language("On"), [this]() { setGPUMultiThreading(Gfx::Renderer::ThreadMode::MULTI); }},
 	},
 	gpuMultithreading
 	{
-		"Render Multithreading",
+		get_local_language("Render Multithreading"),
 		[this](int idx) -> const char*
 		{
 			if(idx == 0)
 			{
-				return renderer().threadMode() == Gfx::Renderer::ThreadMode::MULTI ? "On" : "Off";
+				return renderer().threadMode() == Gfx::Renderer::ThreadMode::MULTI ? get_local_language("On") : get_local_language("Off");
 			}
 			else
 				return nullptr;
@@ -1106,10 +1106,10 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 		}(),
 		gpuMultithreadingItem
 	},
-	visualsHeading{"Visuals"},
-	screenShapeHeading{"Screen Shape"},
-	advancedHeading{"Advanced"},
-	systemSpecificHeading{"System-specific"}
+	visualsHeading{get_local_language("Visuals")},
+	screenShapeHeading{get_local_language("Screen Shape")},
+	advancedHeading{get_local_language("Advanced")},
+	systemSpecificHeading{get_local_language("System-specific")}
 {
 	iterateTimes(EmuSystem::aspectRatioInfos, i)
 	{
@@ -1163,8 +1163,8 @@ bool VideoOptionView::onFrameTimeChange(EmuSystem::VideoSystem vidSys, IG::Float
 void VideoOptionView::pushAndShowFrameRateSelectMenu(EmuSystem::VideoSystem vidSys, Input::Event e)
 {
 	const bool includeFrameRateDetection = !Config::envIsIOS;
-	auto multiChoiceView = makeViewWithName<TextTableView>("Frame Rate", includeFrameRateDetection ? 4 : 3);
-	multiChoiceView->appendItem("Set with screen's reported rate",
+	auto multiChoiceView = makeViewWithName<TextTableView>(get_local_language("Frame Rate"), includeFrameRateDetection ? 4 : 3);
+	multiChoiceView->appendItem(get_local_language("Set with screen's reported rate"),
 		[this, vidSys](Input::Event e)
 		{
 			if(!emuViewController.emuWindowScreen()->frameRateIsReliable())
@@ -1185,17 +1185,17 @@ void VideoOptionView::pushAndShowFrameRateSelectMenu(EmuSystem::VideoSystem vidS
 			if(onFrameTimeChange(vidSys, {}))
 				popAndShow();
 		});
-	multiChoiceView->appendItem("Set default rate",
+	multiChoiceView->appendItem(get_local_language("Set default rate"),
 		[this, vidSys](Input::Event e)
 		{
 			onFrameTimeChange(vidSys, EmuSystem::defaultFrameTime(vidSys));
 			popAndShow();
 		});
-	multiChoiceView->appendItem("Set custom rate",
+	multiChoiceView->appendItem(get_local_language("Set custom rate"),
 		[this, vidSys](Input::Event e)
 		{
 			EmuApp::pushAndShowNewCollectValueInputView<std::pair<double, double>>(attachParams(), e,
-				"Input decimal or fraction", "",
+				get_local_language("Input decimal or fraction"), "",
 				[this, vidSys](auto val)
 				{
 					if(onFrameTimeChange(vidSys, IG::FloatSeconds{val.second / val.first}))
@@ -1209,7 +1209,7 @@ void VideoOptionView::pushAndShowFrameRateSelectMenu(EmuSystem::VideoSystem vidS
 		});
 	if(includeFrameRateDetection)
 	{
-		multiChoiceView->appendItem("Detect screen's rate and set",
+		multiChoiceView->appendItem(get_local_language("Detect screen's rate and set"),
 			[this, vidSys](Input::Event e)
 			{
 				auto frView = makeView<DetectFrameRateView>(emuViewController.rendererTask());
@@ -1222,7 +1222,7 @@ void VideoOptionView::pushAndShowFrameRateSelectMenu(EmuSystem::VideoSystem vidS
 						}
 						else
 						{
-							EmuApp::postErrorMessage("Detected rate too unstable to use");
+							EmuApp::postErrorMessage(get_local_language("Detected rate too unstable to use"));
 						}
 					};
 				popAndShow();
@@ -1233,10 +1233,10 @@ void VideoOptionView::pushAndShowFrameRateSelectMenu(EmuSystem::VideoSystem vidS
 }
 
 AudioOptionView::AudioOptionView(ViewAttachParams attach, bool customMenu):
-	TableView{"Audio Options", attach, item},
+	TableView{get_local_language("Audio Options"), attach, item},
 	snd
 	{
-		"Sound",
+		get_local_language("Sound"),
 		(bool)optionSound,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1257,7 +1257,7 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	soundBuffers
 	{
-		"Buffer Size In Frames",
+		get_local_language("Buffer Size In Frames"),
 		(int)optionSoundBuffers - 2,
 		[this](const MultiChoiceMenuItem &) -> int
 		{
@@ -1270,7 +1270,7 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	addSoundBuffersOnUnderrun
 	{
-		"Auto-increase Buffer Size",
+		get_local_language("Auto-increase Buffer Size"),
 		(bool)optionAddSoundBuffersOnUnderrun,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1280,14 +1280,14 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	audioRate
 	{
-		"Sound Rate",
+		get_local_language("Sound Rate"),
 		0,
 		audioRateItem
 	}
 	#ifdef CONFIG_AUDIO_MANAGER_SOLO_MIX
 	,audioSoloMix
 	{
-		"Mix With Other Apps",
+		get_local_language("Mix With Other Apps"),
 		!optionAudioSoloMix,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1303,17 +1303,17 @@ AudioOptionView::AudioOptionView(ViewAttachParams attach, bool customMenu):
 }
 
 SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
-	TableView{"System Options", attach, item},
+	TableView{get_local_language("System Options"), attach, item},
 	autoSaveStateItem
 	{
-		{"Off", [this]() { setAutoSaveState(0); }},
-		{"Game Exit", [this]() { setAutoSaveState(1); }},
-		{"15mins", [this]() { setAutoSaveState(15); }},
-		{"30mins", [this]() { setAutoSaveState(30); }}
+		{get_local_language("Off"), [this]() { setAutoSaveState(0); }},
+		{get_local_language("Game Exit"), [this]() { setAutoSaveState(1); }},
+		{get_local_language("15mins"), [this]() { setAutoSaveState(15); }},
+		{get_local_language("30mins"), [this]() { setAutoSaveState(30); }}
 	},
 	autoSaveState
 	{
-		"Auto-save State",
+		get_local_language("Auto-save State"),
 		[]()
 		{
 			switch(optionAutoSaveState.val)
@@ -1328,7 +1328,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	confirmAutoLoadState
 	{
-		"Confirm Auto-load State",
+		get_local_language("Confirm Auto-load State"),
 		(bool)optionConfirmAutoLoadState,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1337,7 +1337,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	confirmOverwriteState
 	{
-		"Confirm Overwrite State",
+		get_local_language("Confirm Overwrite State"),
 		(bool)optionConfirmOverwriteState,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1349,8 +1349,8 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 		savePathStr,
 		[this](TextMenuItem &, View &view, Input::Event e)
 		{
-			auto multiChoiceView = makeViewWithName<TextTableView>("Save Path", 3);
-			multiChoiceView->appendItem("Set Custom Path",
+			auto multiChoiceView = makeViewWithName<TextTableView>(get_local_language("Save Path"), 3);
+			multiChoiceView->appendItem(get_local_language("Set Custom Path"),
 				[this](Input::Event e)
 				{
 					auto startPath = strlen(optionSavePath) ? optionSavePath : optionLastLoadPath;
@@ -1367,14 +1367,14 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 						});
 					emuViewController.pushAndShowModal(std::move(fPicker), e, false);
 				});
-			multiChoiceView->appendItem("Same as Game",
+			multiChoiceView->appendItem(get_local_language("Same as Game"),
 				[this]()
 				{
 					popAndShow();
 					strcpy(optionSavePath, "");
 					onSavePathChange("");
 				});
-			multiChoiceView->appendItem("Default",
+			multiChoiceView->appendItem(get_local_language("Default"),
 				[this]()
 				{
 					popAndShow();
@@ -1387,7 +1387,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	checkSavePathWriteAccess
 	{
-		"Check Save Path Write Access",
+		get_local_language("Check Save Path Write Access"),
 		(bool)optionCheckSavePathWriteAccess,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1405,7 +1405,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	fastForwardSpeed
 	{
-		"Fast Forward Speed",
+		get_local_language("Fast Forward Speed"),
 		[]() -> int
 		{
 			if(optionFastForwardSpeed >= MIN_FAST_FORWARD_SPEED && optionFastForwardSpeed <= 7)
@@ -1420,7 +1420,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	,processPriorityItem
 	{
 		{
-			"Normal",
+			get_local_language("Normal"),
 			[this]()
 			{
 				optionProcessPriority = 0;
@@ -1428,7 +1428,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"High",
+			get_local_language("High"),
 			[this]()
 			{
 				optionProcessPriority = -6;
@@ -1436,7 +1436,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"Very High",
+			get_local_language("Very High"),
 			[this]()
 			{
 				optionProcessPriority = -14;
@@ -1446,7 +1446,7 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	processPriority
 	{
-		"Process Priority",
+		get_local_language("Process Priority"),
 		[]()
 		{
 			switch(optionProcessPriority.val)
@@ -1460,9 +1460,9 @@ SystemOptionView::SystemOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	performanceMode
 	{
-		"Performance Mode",
+		get_local_language("Performance Mode"),
 		(bool)optionSustainedPerformanceMode,
-		"Normal", "Sustained",
+		get_local_language("Normal"), get_local_language("Sustained"),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
 			optionSustainedPerformanceMode = item.flipBoolValue(*this);
@@ -1494,7 +1494,7 @@ void SystemOptionView::onFirmwarePathChange(const char *path, Input::Event e) {}
 void SystemOptionView::pushAndShowFirmwarePathMenu(const char *name, Input::Event e, bool allowFiles)
 {
 	auto multiChoiceView = std::make_unique<TextTableView>(name, attachParams(), allowFiles ? 3 : 2);
-	multiChoiceView->appendItem("Set Custom Path",
+	multiChoiceView->appendItem(get_local_language("Set Custom Path"),
 		[this](Input::Event e)
 		{
 			auto startPath =  EmuApp::firmwareSearchPath();
@@ -1514,7 +1514,7 @@ void SystemOptionView::pushAndShowFirmwarePathMenu(const char *name, Input::Even
 		});
 	if(allowFiles)
 	{
-		multiChoiceView->appendItem("Set Custom Archive File",
+		multiChoiceView->appendItem(get_local_language("Set Custom Archive File"),
 			[this](Input::Event e)
 			{
 				auto startPath =  EmuApp::firmwareSearchPath();
@@ -1533,7 +1533,7 @@ void SystemOptionView::pushAndShowFirmwarePathMenu(const char *name, Input::Even
 				EmuApp::pushAndShowModalView(std::move(fPicker), e);
 			});
 	}
-	multiChoiceView->appendItem("Default",
+	multiChoiceView->appendItem(get_local_language("Default"),
 		[this](Input::Event e)
 		{
 			popAndShow();
@@ -1549,10 +1549,10 @@ void SystemOptionView::pushAndShowFirmwareFilePathMenu(const char *name, Input::
 }
 
 GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
-	TableView{"GUI Options", attach, item},
+	TableView{get_local_language("GUI Options"), attach, item},
 	pauseUnfocused
 	{
-		"Pause if unfocused",
+		get_local_language("Pause if unfocused"),
 		(bool)optionPauseUnfocused,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1570,10 +1570,10 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 		{"8", [this]() { setFontSize(8000); }},
 		{"9", [this]() { setFontSize(9000); }},
 		{"10", [this]() { setFontSize(10000); }},
-		{"Custom Value",
+		{get_local_language("Custom Value"),
 			[this](Input::Event e)
 			{
-				EmuApp::pushAndShowNewCollectValueInputView<double>(attachParams(), e, "Input 2.0 to 10.0", "",
+				EmuApp::pushAndShowNewCollectValueInputView<double>(attachParams(), e, get_local_language("Input 2.0 to 10.0"), "",
 					[this](auto val)
 					{
 						int scaledIntVal = val * 1000.0;
@@ -1586,7 +1586,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 						}
 						else
 						{
-							EmuApp::postErrorMessage("Value not in range");
+							EmuApp::postErrorMessage(get_local_language("Value not in range"));
 							return false;
 						}
 					});
@@ -1596,7 +1596,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	fontSize
 	{
-		"Font Size",
+		get_local_language("Font Size"),
 		[this](uint32_t idx)
 		{
 			return fontSizeStr;
@@ -1621,7 +1621,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	notificationIcon
 	{
-		"Suspended App Icon",
+		get_local_language("Suspended App Icon"),
 		(bool)optionNotificationIcon,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1631,7 +1631,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	statusBarItem
 	{
 		{
-			"Off",
+			get_local_language("Off"),
 			[this]()
 			{
 				optionHideStatusBar = 0;
@@ -1639,7 +1639,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"In Game",
+			get_local_language("In Game"),
 			[this]()
 			{
 				optionHideStatusBar = 1;
@@ -1647,7 +1647,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"On",
+			get_local_language("On"),
 			[this]()
 			{
 				optionHideStatusBar = 2;
@@ -1657,14 +1657,14 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	statusBar
 	{
-		"Hide Status Bar",
+		get_local_language("Hide Status Bar"),
 		optionHideStatusBar,
 		statusBarItem
 	},
 	lowProfileOSNavItem
 	{
 		{
-			"Off",
+			get_local_language("Off"),
 			[this]()
 			{
 				optionLowProfileOSNav = 0;
@@ -1672,7 +1672,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"In Game",
+			get_local_language("In Game"),
 			[this]()
 			{
 				optionLowProfileOSNav = 1;
@@ -1680,7 +1680,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"On",
+			get_local_language("On"),
 			[this]()
 			{
 				optionLowProfileOSNav = 2;
@@ -1690,14 +1690,14 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	lowProfileOSNav
 	{
-		"Dim OS UI",
+		get_local_language("Dim OS UI"),
 		optionLowProfileOSNav,
 		lowProfileOSNavItem
 	},
 	hideOSNavItem
 	{
 		{
-			"Off",
+			get_local_language("Off"),
 			[this]()
 			{
 				optionHideOSNav = 0;
@@ -1705,7 +1705,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"In Game",
+			get_local_language("In Game"),
 			[this]()
 			{
 				optionHideOSNav = 1;
@@ -1713,7 +1713,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 			}
 		},
 		{
-			"On",
+			get_local_language("On"),
 			[this]()
 			{
 				optionHideOSNav = 2;
@@ -1723,13 +1723,13 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	hideOSNav
 	{
-		"Hide OS Navigation",
+		get_local_language("Hide OS Navigation"),
 		optionHideOSNav,
 		hideOSNavItem
 	},
 	idleDisplayPowerSave
 	{
-		"Dim Screen If Idle",
+		get_local_language("Dim Screen If Idle"),
 		(bool)optionIdleDisplayPowerSave,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1739,7 +1739,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	navView
 	{
-		"Title Bar",
+		get_local_language("Title Bar"),
 		(bool)optionTitleBar,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1750,7 +1750,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	backNav
 	{
-		"Title Back Navigation",
+		get_local_language("Title Back Navigation"),
 		View::needsBackControl,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1761,9 +1761,9 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	systemActionsIsDefaultMenu
 	{
-		"Default Menu",
+		get_local_language("Default Menu"),
 		(bool)optionSystemActionsIsDefaultMenu,
-		"Last Used", "System Actions",
+		get_local_language("Last Used"), get_local_language("System Actions"),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
 			optionSystemActionsIsDefaultMenu = item.flipBoolValue(*this);
@@ -1771,7 +1771,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	showBundledGames
 	{
-		"Show Bundled Games",
+		get_local_language("Show Bundled Games"),
 		(bool)optionShowBundledGames,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1781,7 +1781,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	showBluetoothScan
 	{
-		"Show Bluetooth Menu Items",
+		get_local_language("Show Bluetooth Menu Items"),
 		(bool)optionShowBluetoothScan,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -1791,12 +1791,12 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	orientationHeading
 	{
-		"Orientation",
+		get_local_language("Orientation"),
 	},
 	menuOrientationItem
 	{
 		#ifdef CONFIG_BASE_SUPPORTS_ORIENTATION_SENSOR
-		{"Auto", [this](){ setMenuOrientation(Base::VIEW_ROTATE_AUTO, window()); }},
+		{get_local_language("Auto"), [this](){ setMenuOrientation(Base::VIEW_ROTATE_AUTO, window()); }},
 		#endif
 		{landscapeName, [this](){ setMenuOrientation(Base::VIEW_ROTATE_90, window()); }},
 		{landscape2Name, [this](){ setMenuOrientation(Base::VIEW_ROTATE_270, window()); }},
@@ -1805,7 +1805,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	menuOrientation
 	{
-		"In Menu",
+		get_local_language("In Menu"),
 		[]()
 		{
 			int itemOffset = Config::BASE_SUPPORTS_ORIENTATION_SENSOR ? 0 : 1;
@@ -1823,7 +1823,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	gameOrientationItem
 	{
 		#ifdef CONFIG_BASE_SUPPORTS_ORIENTATION_SENSOR
-		{"Auto", [](){ setGameOrientation(Base::VIEW_ROTATE_AUTO); }},
+		{get_local_language("Auto"), [](){ setGameOrientation(Base::VIEW_ROTATE_AUTO); }},
 		#endif
 		{landscapeName, [](){ setGameOrientation(Base::VIEW_ROTATE_90); }},
 		{landscape2Name, [](){ setGameOrientation(Base::VIEW_ROTATE_270); }},
@@ -1832,7 +1832,7 @@ GUIOptionView::GUIOptionView(ViewAttachParams attach, bool customMenu):
 	},
 	gameOrientation
 	{
-		"In Game",
+		get_local_language("In Game"),
 		[]()
 		{
 			int itemOffset = Config::BASE_SUPPORTS_ORIENTATION_SENSOR ? 0 : 1;
