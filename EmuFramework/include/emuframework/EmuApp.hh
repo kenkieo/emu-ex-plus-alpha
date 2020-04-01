@@ -23,6 +23,7 @@
 #include <imagine/fs/FSDefs.hh>
 #include <emuframework/EmuSystem.hh>
 #include <imagine/util/typeTraits.hh>
+#include <emuframework/language/language.hh>
 
 class EmuApp
 {
@@ -154,7 +155,7 @@ public:
 				}
 				if(items <= 0)
 				{
-					postErrorMessage("Enter a value");
+					postErrorMessage(get_local_language("Enter a value"));
 					return true;
 				}
 				else if(!collectedValueFunc(val))
