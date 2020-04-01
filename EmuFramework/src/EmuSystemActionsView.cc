@@ -28,6 +28,7 @@
 #include <emuframework/InputManagerView.hh>
 #include <emuframework/TouchConfigView.hh>
 #include <emuframework/BundledGamesView.hh>
+#include <emuframework/language/language.hh>
 #include "private.hh"
 
 class ResetAlertView : public BaseAlertView
@@ -51,7 +52,7 @@ public:
 			}),
 		soft
 		{
-			"Soft Reset",
+			get_local_language("Soft Reset"),
 			[this]()
 			{
 				dismiss();
@@ -61,7 +62,7 @@ public:
 		},
 		hard
 		{
-			"Hard Reset",
+			get_local_language("Hard Reset"),
 			[this]()
 			{
 				dismiss();
@@ -71,7 +72,7 @@ public:
 		},
 		cancel
 		{
-			"Cancel",
+			get_local_language("Cancel"),
 			[this]()
 			{
 				dismiss();
@@ -121,10 +122,10 @@ void EmuSystemActionsView::loadStandardItems()
 }
 
 EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customMenu):
-	TableView{"System Actions", attach, item},
+	TableView{get_local_language("System Actions"), attach, item},
 	cheats
 	{
-		"Cheats",
+		get_local_language("Cheats"),
 		[this](Input::Event e)
 		{
 			if(EmuSystem::gameIsRunning())
@@ -135,18 +136,18 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 	},
 	reset
 	{
-		"Reset",
+		get_local_language("Reset"),
 		[this](Input::Event e)
 		{
 			if(EmuSystem::gameIsRunning())
 			{
 				if(EmuSystem::hasResetModes)
 				{
-					emuViewController.pushAndShowModal(makeView<ResetAlertView>("Really reset?"), e, false);
+					emuViewController.pushAndShowModal(makeView<ResetAlertView>(get_local_language("Really reset?")), e, false);
 				}
 				else
 				{
-					auto ynAlertView = makeView<YesNoAlertView>("Really reset?");
+					auto ynAlertView = makeView<YesNoAlertView>(get_local_language("Really reset?"));
 					ynAlertView->setOnYes(
 						[](TextMenuItem &, View &view, Input::Event e)
 						{
@@ -161,12 +162,12 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 	},
 	loadState
 	{
-		"Load State",
+		get_local_language("Load State"),
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			if(item.active() && EmuSystem::gameIsRunning())
 			{
-				auto ynAlertView = std::make_unique<YesNoAlertView>(attachParams(), "Really load state?");
+				auto ynAlertView = std::make_unique<YesNoAlertView>(attachParams(), get_local_language("Really load state?"));
 				ynAlertView->setOnYes(
 					[](TextMenuItem &, View &view, Input::Event e)
 					{
@@ -185,7 +186,7 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 	},
 	saveState
 	{
-		"Save State",
+		get_local_language("Save State"),
 		[this](Input::Event e)
 		{
 			if(EmuSystem::gameIsRunning())
@@ -208,7 +209,7 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 				}
 				else
 				{
-					auto ynAlertView = std::make_unique<YesNoAlertView>(attachParams(), "Really overwrite state?");
+					auto ynAlertView = std::make_unique<YesNoAlertView>(attachParams(), get_local_language("Really overwrite state?"));
 					ynAlertView->setOnYes(
 						[](TextMenuItem &, View &view, Input::Event e)
 						{
@@ -233,7 +234,7 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 	#ifdef CONFIG_EMUFRAMEWORK_ADD_LAUNCHER_ICON
 	addLauncherIcon
 	{
-		"Add Game Shortcut to Launcher",
+		get_local_language("Add Game Shortcut to Launcher"),
 		[this](Input::Event e)
 		{
 			if(EmuSystem::gameIsRunning())
@@ -243,24 +244,24 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 					// shortcuts to bundled games not yet supported
 					return;
 				}
-				EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Shortcut Name", EmuSystem::fullGameName().data(),
+				EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, get_local_language("Shortcut Name"), EmuSystem::fullGameName().data(),
 					[this](auto str)
 					{
 						Base::addLauncherIcon(str, EmuSystem::fullGamePath());
-						EmuApp::printfMessage(2, false, "Added shortcut:\n%s", str);
+						EmuApp::printfMessage(2, false, get_local_language("Added shortcut:\n%s"), str);
 						return true;
 					});
 			}
 			else
 			{
-				EmuApp::postMessage("Load a game first");
+				EmuApp::postMessage(get_local_language("Load a game first"));
 			}
 		}
 	},
 	#endif
 	screenshot
 	{
-		"Screenshot Next Frame",
+		get_local_language("Screenshot Next Frame"),
 		[]()
 		{
 			if(EmuSystem::gameIsRunning())
@@ -272,13 +273,13 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 	},
 	resetSessionOptions
 	{
-		"Reset Saved Options",
+		get_local_language("Reset Saved Options"),
 		[this](Input::Event e)
 		{
 			if(!EmuApp::hasSavedSessionOptions())
 				return;
 			auto ynAlertView = makeView<YesNoAlertView>(
-				"Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads.");
+				get_local_language("Reset saved options for the currently running system to defaults? Some options only take effect next time the system loads."));
 			ynAlertView->setOnYes(
 				[this](TextMenuItem &item, View &view, Input::Event)
 				{
@@ -291,10 +292,10 @@ EmuSystemActionsView::EmuSystemActionsView(ViewAttachParams attach, bool customM
 	},
 	close
 	{
-		"Close Game",
+		get_local_language("Close Game"),
 		[this](Input::Event e)
 		{
-			auto ynAlertView = makeView<YesNoAlertView>("Really close current game?");
+			auto ynAlertView = makeView<YesNoAlertView>(get_local_language("Really close current game?"));
 			ynAlertView->setOnYes(
 				[this](TextMenuItem &, View &view, Input::Event)
 				{
