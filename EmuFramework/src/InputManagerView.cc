@@ -16,6 +16,7 @@
 #include <emuframework/InputManagerView.hh>
 #include <emuframework/ButtonConfigView.hh>
 #include <emuframework/EmuApp.hh>
+#include <emuframework/language/language.hh>
 #include "EmuOptions.hh"
 #include <imagine/gui/TextEntry.hh>
 #include <imagine/gui/TextTableView.hh>
@@ -29,7 +30,7 @@ static const char *confirmDeleteProfileStr = "Delete profile from the configurat
 
 IdentInputDeviceView::IdentInputDeviceView(ViewAttachParams attach):
 	View(attach),
-	text{"Push a key on any input device enter its configuration menu", &View::defaultFace}
+	text{get_local_language("Push a key on any input device enter its configuration menu"), &View::defaultFace}
 {
 	Input::setKeyRepeat(false);
 }
@@ -96,15 +97,15 @@ static InputManagerView::DeviceNameString makePrintfDeviceNameWithNumber(const c
 }
 
 InputManagerView::InputManagerView(ViewAttachParams attach):
-	TableView{"Key/Gamepad Input Setup", attach, item},
+	TableView{get_local_language("Key/Gamepad Input Setup"), attach, item},
 	deleteDeviceConfig
 	{
-		"Delete Saved Device Settings",
+		get_local_language("Delete Saved Device Settings"),
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			if(!savedInputDevList.size())
 			{
-				EmuApp::postMessage("No saved device settings");
+				EmuApp::postMessage(get_local_language("No saved device settings"));
 				return;
 			}
 			uint devs = savedInputDevList.size();
@@ -154,12 +155,12 @@ InputManagerView::InputManagerView(ViewAttachParams attach):
 	},
 	deleteProfile
 	{
-		"Delete Saved Key Profile",
+		get_local_language("Delete Saved Key Profile"),
 		[this](TextMenuItem &item, View &, Input::Event e)
 		{
 			if(!customKeyConfig.size())
 			{
-				EmuApp::postMessage("No saved profiles");
+				EmuApp::postMessage(get_local_language("No saved profiles"));
 				return;
 			}
 			uint profiles = customKeyConfig.size();
@@ -202,7 +203,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach):
 	#ifdef CONFIG_BASE_ANDROID
 	rescanOSDevices
 	{
-		"Re-scan OS Input Devices",
+		get_local_language("Re-scan OS Input Devices"),
 		[this](Input::Event e)
 		{
 			using namespace Input;
@@ -219,7 +220,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach):
 	#endif
 	identDevice
 	{
-		"Auto-detect Device To Setup",
+		get_local_language("Auto-detect Device To Setup"),
 		[this](Input::Event e)
 		{
 			auto identView = makeView<IdentInputDeviceView>();
@@ -239,7 +240,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach):
 	},
 	generalOptions
 	{
-		"General Options",
+		get_local_language("General Options"),
 		[this](Input::Event e)
 		{
 			pushAndShow(makeView<InputManagerOptionsView>(), e);
@@ -247,7 +248,7 @@ InputManagerView::InputManagerView(ViewAttachParams attach):
 	},
 	deviceListHeading
 	{
-		"Individual Device Settings"
+		get_local_language("Individual Device Settings")
 	}
 {
 	assert(!onUpdateInputDevices);
@@ -333,12 +334,12 @@ static void setBTScanSecs(int secs)
 #endif
 
 InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
-	TableView{"General Input Options", attach, item},
+	TableView{get_local_language("General Input Options"), attach, item},
 	#if 0
 	relativePointerDecelItem
 	{
 		{
-			"Low",
+			get_local_language("Low"),
 			[this]()
 			{
 				optionRelPointerDecel.val = optionRelPointerDecelLow;
@@ -352,7 +353,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 			}
 		},
 		{
-			"High",
+			get_local_language("High"),
 			[this]()
 			{
 				optionRelPointerDecel.val = optionRelPointerDecelHigh;
@@ -361,7 +362,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	},
 	relativePointerDecel
 	{
-		"Trackball Sensitivity",
+		get_local_language("Trackball Sensitivity"),
 		[]()
 		{
 			if(optionRelPointerDecel == optionRelPointerDecelLow)
@@ -378,7 +379,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	#ifdef CONFIG_INPUT_ANDROID_MOGA
 	mogaInputSystem
 	{
-		"MOGA Controller Support",
+		get_local_language("MOGA Controller Support"),
 		(bool)optionMOGAInputSystem,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -399,7 +400,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	#ifdef CONFIG_INPUT_DEVICE_HOTSWAP
 	notifyDeviceChange
 	{
-		"Notify If Devices Change",
+		get_local_language("Notify If Devices Change"),
 		(bool)optionNotifyInputDeviceChange,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -410,11 +411,11 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	#ifdef CONFIG_BLUETOOTH
 	bluetoothHeading
 	{
-		"In-app Bluetooth Options"
+		get_local_language("In-app Bluetooth Options")
 	},
 	keepBtActive
 	{
-		"Keep Connections In Background",
+		get_local_language("Keep Connections In Background"),
 		(bool)optionKeepBluetoothActive,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -463,7 +464,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	},
 	btScanSecs
 	{
-		"Scan Time",
+		get_local_language("Scan Time"),
 		[]()
 		{
 			switch(BluetoothAdapter::scanSecs)
@@ -482,7 +483,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	#ifdef CONFIG_BLUETOOTH_SCAN_CACHE_USAGE
 	btScanCache
 	{
-		"Cache Scan Results",
+		get_local_language("Cache Scan Results"),
 		(bool)optionBlueToothScanCache,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -492,7 +493,7 @@ InputManagerOptionsView::InputManagerOptionsView(ViewAttachParams attach):
 	#endif
 	altGamepadConfirm
 	{
-		"Swap Confirm/Cancel Keys",
+		get_local_language("Swap Confirm/Cancel Keys"),
 		Input::swappedGamepadConfirm(),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -541,7 +542,7 @@ public:
 	ProfileSelectMenu(ViewAttachParams attach, Input::Device &dev, const char *selectedName):
 		TextTableView
 		{
-			"Key Profile",
+			get_local_language("Key Profile"),
 			attach,
 			(uint)customKeyConfig.size() + MAX_DEFAULT_KEY_CONFIGS_PER_TYPE
 		}
@@ -597,7 +598,7 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	rootIMView{rootIMView_},
 	playerItem
 	{
-		{"Multiple", [this]() { setPlayer(InputDeviceConfig::PLAYER_MULTI); }},
+		{get_local_language("Multiple"), [this]() { setPlayer(InputDeviceConfig::PLAYER_MULTI); }},
 		{"1", [this]() { setPlayer(0); }},
 		{"2", [this]() { setPlayer(1); }},
 		{"3", [this]() { setPlayer(2); }},
@@ -606,7 +607,7 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	},
 	player
 	{
-		"Player",
+		get_local_language("Player"),
 		(int)playerConfToMenuIdx(devConfRef.player),
 		[](const MultiChoiceMenuItem &) -> uint
 		{
@@ -636,20 +637,20 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	},
 	renameProfile
 	{
-		"Rename Profile",
+		get_local_language("Rename Profile"),
 		[this](Input::Event e)
 		{
 			if(!devConf->mutableKeyConf())
 			{
-				EmuApp::postMessage(2, "Can't rename a built-in profile");
+				EmuApp::postMessage(2, get_local_language("Can't rename a built-in profile"));
 				return;
 			}
-			EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input name", devConf->keyConf().name,
+			EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, get_local_language("Input name"), devConf->keyConf().name,
 				[this](auto str)
 				{
 					if(customKeyConfigsContainName(str))
 					{
-						EmuApp::postErrorMessage("Another profile is already using this name");
+						EmuApp::postErrorMessage(get_local_language("Another profile is already using this name"));
 						postDraw();
 						return false;
 					}
@@ -663,21 +664,21 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	},
 	newProfile
 	{
-		"New Profile",
+		get_local_language("New Profile"),
 		[this](Input::Event e)
 		{
 			auto ynAlertView = makeView<YesNoAlertView>(
-				"Create a new profile? All keys from the current profile will be copied over.");
+				get_local_language("Create a new profile? All keys from the current profile will be copied over."));
 			ynAlertView->setOnYes(
 				[this](TextMenuItem &, View &view, Input::Event e)
 				{
 					view.dismiss();
-					EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input name", "",
+					EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, get_local_language("Input name"), "",
 						[this](auto str)
 						{
 							if(customKeyConfigsContainName(str))
 							{
-								EmuApp::postErrorMessage("Another profile is already using this name");
+								EmuApp::postErrorMessage(get_local_language("Another profile is already using this name"));
 								return false;
 							}
 							devConf->setKeyConfCopiedFromExisting(str);
@@ -692,12 +693,12 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	},
 	deleteProfile
 	{
-		"Delete Profile",
+		get_local_language("Delete Profile"),
 		[this](Input::Event e)
 		{
 			if(!devConf->mutableKeyConf())
 			{
-				EmuApp::postMessage(2, "Can't delete a built-in profile");
+				EmuApp::postMessage(2, get_local_language("Can't delete a built-in profile"));
 				return;
 			}
 			auto ynAlertView = makeView<YesNoAlertView>(confirmDeleteProfileStr);
@@ -723,7 +724,7 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	#if defined CONFIG_INPUT_ICADE
 	iCadeMode
 	{
-		"iCade Mode",
+		get_local_language("iCade Mode"),
 		devConfRef.iCadeMode(),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -733,7 +734,7 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 			if(!item.boolValue())
 			{
 				auto ynAlertView = makeView<YesNoAlertView>(
-					"This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade", "Enable", "Cancel");
+					get_local_language("This mode allows input from an iCade-compatible Bluetooth device, don't enable if this isn't an iCade"),get_local_language("Enable"), get_local_language("Cancel"));
 				ynAlertView->setOnYes(
 					[this](TextMenuItem &, View &view, Input::Event e)
 					{
@@ -750,7 +751,7 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	#endif
 	joystickAxis1DPad
 	{
-		"Joystick X/Y Axis 1 as D-Pad",
+		get_local_language("Joystick X/Y Axis 1 as D-Pad"),
 		bool(devConfRef.joystickAxisAsDpadBits() & Input::Device::AXIS_BIT_X),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -763,7 +764,7 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	},
 	joystickAxis2DPad
 	{
-		"Joystick X/Y Axis 2 as D-Pad",
+		get_local_language("Joystick X/Y Axis 2 as D-Pad"),
 		bool(devConfRef.joystickAxisAsDpadBits() & Input::Device::AXIS_BIT_Z),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -776,7 +777,7 @@ InputManagerDeviceView::InputManagerDeviceView(ViewAttachParams attach, InputMan
 	},
 	joystickAxisHatDPad
 	{
-		"Joystick POV Hat as D-Pad",
+		get_local_language("Joystick POV Hat as D-Pad"),
 		bool(devConfRef.joystickAxisAsDpadBits() & Input::Device::AXIS_BIT_HAT_X),
 		[this](BoolMenuItem &item, Input::Event e)
 		{
