@@ -16,6 +16,7 @@
 #include <emuframework/BundledGamesView.hh>
 #include <emuframework/EmuApp.hh>
 #include <emuframework/FilePicker.hh>
+#include <emuframework/language/language.hh>
 #include <imagine/logger/logger.h>
 #include <imagine/io/FileIO.hh>
 #include <imagine/io/BufferMapIO.hh>
@@ -24,7 +25,7 @@
 BundledGamesView::BundledGamesView(ViewAttachParams attach):
 	TableView
 	{
-		"Bundled Games",
+		get_local_language("Bundled Games"),
 		attach,
 		[this](const TableView &)
 		{
