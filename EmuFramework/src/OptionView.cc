@@ -657,8 +657,7 @@ VideoOptionView::VideoOptionView(ViewAttachParams attach, bool customMenu):
 				if(!Gfx::Texture::isAndroidGraphicBufferStorageWhitelisted(renderer()))
 				{
 					auto ynAlertView = makeView<YesNoAlertView>(
-						get_local_language("Setting Graphic Buffer improves performance but may hang or crash ")
-						get_local_language("the app depending on your device or GPU"),
+						get_local_language("Setting Graphic Buffer improves performance but may hang or crash \n the app depending on your device or GPU"),
 						get_local_language("OK"), get_local_language("Cancel"));
 					ynAlertView->setOnYes(
 						[this](TextMenuItem &, View &view, Input::Event e)
