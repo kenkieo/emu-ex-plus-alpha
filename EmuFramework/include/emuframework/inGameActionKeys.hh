@@ -26,20 +26,20 @@ typedef uint GameActionKeyArray[gameActionKeys];
 static const char *gameActionName[gameActionKeys] =
 {
     get_local_language("Load Game"),
-	"Open System Actions",
-	"Save State",
-	"Load State",
-	"Decrement State Slot",
-	"Increment State Slot",
-	"Fast-forward",
-	"Take Screenshot",
-	"Open Menu",
+	get_local_language("Open System Actions"),
+	get_local_language("Save State"),
+	get_local_language("Load State"),
+	get_local_language("Decrement State Slot"),
+	get_local_language("Increment State Slot"),
+	get_local_language("Fast-forward"),
+	get_local_language("Take Screenshot"),
+	get_local_language("Open Menu"),
 };
 
 }
 
 #define EMU_CONTROLS_IN_GAME_ACTIONS_CATEGORY_INIT \
-{"Set In-Game Actions", gameActionName, 0}
+{get_local_language("Set In-Game Actions"), gameActionName, 0}
 
 #define EMU_CONTROLS_IN_GAME_ACTIONS_UNBINDED_PROFILE_INIT \
 0, 0, 0, 0, 0, 0, 0, 0, 0
