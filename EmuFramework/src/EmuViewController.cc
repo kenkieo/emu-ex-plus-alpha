@@ -18,6 +18,7 @@
 #include <emuframework/EmuView.hh>
 #include <emuframework/EmuVideoLayer.hh>
 #include <emuframework/FilePicker.hh>
+#include <emuframework/language/language.hh>
 #include <imagine/base/Base.hh>
 #include <imagine/gui/AlertView.hh>
 #include <imagine/gui/ToastView.hh>
@@ -37,8 +38,8 @@ public:
 		{
 			attach,
 			"",
-			"Continue",
-			"Restart Game",
+			get_local_language("Continue"),
+			get_local_language("Restart Game"),
 			[addToRecent](TextMenuItem &, View &view, Input::Event e)
 			{
 				view.dismiss();
@@ -714,7 +715,7 @@ void EmuViewController::closeSystem(bool allowAutosaveState)
 	emuVideo.clear();
 	EmuSystem::closeRuntimeSystem(allowAutosaveState);
 	viewStack.navView()->showRightBtn(false);
-	if(int idx = viewStack.viewIdx("System Actions");
+	if(int idx = viewStack.viewIdx(get_local_language("System Actions"));
 		idx > 0)
 	{
 		viewStack.popTo(viewStack.viewAtIdx(idx - 1));
@@ -816,7 +817,7 @@ void EmuViewController::setShowNavViewBackButton(bool show)
 void EmuViewController::showSystemActionsView(ViewAttachParams attach, Input::Event e)
 {
 	showUI();
-	if(!viewStack.contains("System Actions"))
+	if(!viewStack.contains(get_local_language("System Actions")))
 	{
 		viewStack.pushAndShow(makeEmuView(attach, EmuApp::ViewID::SYSTEM_ACTIONS), e);
 	}
