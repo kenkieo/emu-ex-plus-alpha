@@ -21,6 +21,7 @@
 #include <emuframework/EmuLoadProgressView.hh>
 #include <emuframework/EmuVideoLayer.hh>
 #include <emuframework/FileUtils.hh>
+#include <emuframework/language/language.hh>
 #include <imagine/base/Base.hh>
 #include <imagine/gui/ToastView.hh>
 #include <imagine/gui/AlertView.hh>
@@ -44,11 +45,11 @@ public:
 			EmuSystem::gameIsRunning() ? 3u : 2u
 		}
 	{
-		setItem(0, "Yes", [](){ Base::exit(); });
-		setItem(1, "No", [](TextMenuItem &, View &view, Input::Event){ view.dismiss(); });
+		setItem(0, get_local_language"Yes"), [](){ Base::exit(); });
+		setItem(1, get_local_language("No"), [](TextMenuItem &, View &view, Input::Event){ view.dismiss(); });
 		if(item.size() == 3)
 		{
-			setItem(2, "Close Menu",
+			setItem(2, get_local_language("Close Menu"),
 				[](TextMenuItem &, View &view, Input::Event)
 				{
 					view.dismiss();
@@ -549,7 +550,7 @@ void EmuApp::promptSystemReloadDueToSetOption(ViewAttachParams attach, Input::Ev
 	if(!EmuSystem::gameIsRunning())
 		return;
 	auto ynAlertView = std::make_unique<YesNoAlertView>(attach,
-		"This option takes effect next time the system starts. Restart it now?");
+		get_local_language("This option takes effect next time the system starts. Restart it now?"));
 	ynAlertView->setOnYes(
 		[](TextMenuItem &, View &view, Input::Event e)
 		{
@@ -601,7 +602,7 @@ void EmuApp::printScreenshotResult(int num, bool success)
 {
 	if(num == -1)
 	{
-		EmuApp::postErrorMessage("Too many screenshots");
+		EmuApp::postErrorMessage(get_local_language("Too many screenshots"));
 	}
 	else
 	{
@@ -694,7 +695,7 @@ EmuSystem::Error EmuApp::saveState(const char *path)
 {
 	if(!EmuSystem::gameIsRunning())
 	{
-		return EmuSystem::makeError("System not running");
+		return EmuSystem::makeError(get_local_language("System not running"));
 	}
 	fixFilePermissions(path);
 	syncEmulationThread();
@@ -712,11 +713,11 @@ EmuSystem::Error EmuApp::loadState(const char *path)
 {
 	if(!EmuSystem::gameIsRunning())
 	{
-		return EmuSystem::makeError("System not running");
+		return EmuSystem::makeError(get_local_language("System not running"));
 	}
 	if(!FS::exists(path))
 	{
-		return EmuSystem::makeError("File doesn't exist");
+		return EmuSystem::makeError(get_local_language("File doesn't exist"));
 	}
 	fixFilePermissions(path);
 	syncEmulationThread();
