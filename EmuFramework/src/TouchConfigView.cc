@@ -26,7 +26,9 @@ static constexpr bool CAN_TURN_OFF_MENU_BTN = !Config::envIsIOS;
 
 static const char *ctrlStateStr[]
 {
-	"Off", "On", "Hidden"
+	get_local_language("Off"),
+	get_local_language("On"),
+	get_local_language("Hidden")
 };
 
 static const char *touchCtrlSizeMenuName[10]
@@ -69,7 +71,11 @@ static const uint touchDpadDeadzoneMenuVal[3]
 
 static const char *touchDpadDiagonalSensitivityMenuName[5]
 {
-	"None", "Low", "M-Low","Med.", "High"
+	get_local_language("None"),
+	get_local_language("Low"),
+	 get_local_language("M-Low"),
+	 get_local_language("Med."),
+	 get_local_language("High")
 };
 
 static const uint touchDpadDiagonalSensitivityMenuVal[5]
@@ -89,7 +95,7 @@ static const uint touchCtrlBtnSpaceMenuVal[4]
 
 static const char *touchCtrlExtraXBtnSizeMenuName[4]
 {
-	"None", "Gap only", "10%", "25%"
+	get_local_language("None"), get_local_language("Gap only"), "10%", "25%"
 };
 
 static const uint touchCtrlExtraXBtnSizeMenuVal[4]
@@ -99,7 +105,7 @@ static const uint touchCtrlExtraXBtnSizeMenuVal[4]
 
 static const char *touchCtrlExtraYBtnSizeMenuName[4]
 {
-	"None", "Gap only", "25%", "50%"
+	get_local_language("None"), get_local_language("Gap only"), "25%", "50%"
 };
 
 static const uint touchCtrlExtraYBtnSizeMenuVal[4]
@@ -151,7 +157,7 @@ public:
 void OnScreenInputPlaceView::init()
 {
 	applyOSNavStyle(true);
-	text = {"Click center to go back", &View::defaultFace};
+	text = {get_local_language("Click center to go back"), &View::defaultFace};
 	textFade.set(1.);
 	animate =
 		[this](Base::Screen::FrameParams params)
@@ -442,18 +448,18 @@ void TouchConfigView::refreshTouchConfigMenu()
 }
 
 TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vController, const char *faceBtnName, const char *centerBtnName):
-	TableView{"On-screen Input Setup", attach, item},
+	TableView{get_local_language("On-screen Input Setup"), attach, item},
 	vController{vController},
 	#ifdef CONFIG_VCONTROLS_GAMEPAD
 	touchCtrlItem
 	{
-		{"Off", [this]() { optionTouchCtrl = 0; emuViewController.setOnScreenControls(0); }},
-		{"On", [this]() { optionTouchCtrl = 1; emuViewController.setOnScreenControls(1); }},
-		{"Auto", [this]() { optionTouchCtrl = 2; emuViewController.updateAutoOnScreenControlVisible(); }}
+		{get_local_language("Off"), [this]() { optionTouchCtrl = 0; emuViewController.setOnScreenControls(0); }},
+		{get_local_language("On"), [this]() { optionTouchCtrl = 1; emuViewController.setOnScreenControls(1); }},
+		{get_local_language("Auto"), [this]() { optionTouchCtrl = 2; emuViewController.updateAutoOnScreenControlVisible(); }}
 	},
 	touchCtrl
 	{
-		"Use Virtual Gamepad",
+		get_local_language("Use Virtual Gamepad"),
 		optionTouchCtrl,
 		touchCtrlItem
 	},
@@ -467,7 +473,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	pointerInput
 	{
-		"Virtual Gamepad Player",
+		get_local_language("Virtual Gamepad Player"),
 		(int)pointerInputPlayer,
 		[this](const MultiChoiceMenuItem &) -> int
 		{
@@ -490,10 +496,10 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 		{touchCtrlSizeMenuName[7], [this](){ setSize(touchCtrlSizeMenuVal[7]); }},
 		{touchCtrlSizeMenuName[8], [this](){ setSize(touchCtrlSizeMenuVal[8]); }},
 		{touchCtrlSizeMenuName[9], [this](){ setSize(touchCtrlSizeMenuVal[9]); }},
-		{"Custom Value",
+		{get_local_language("Custom Value"),
 			[this](Input::Event e)
 			{
-				EmuApp::pushAndShowNewCollectValueInputView<double>(attachParams(), e, "Input 3.0 to 15.0", "",
+				EmuApp::pushAndShowNewCollectValueInputView<double>(attachParams(), e, get_local_language("Input 3.0 to 15.0"), "",
 					[this](auto val)
 					{
 						int scaledIntVal = val * 100.0;
@@ -506,7 +512,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 						}
 						else
 						{
-							EmuApp::postErrorMessage("Value not in range");
+							EmuApp::postErrorMessage(get_local_language("Value not in range"));
 							return false;
 						}
 					});
@@ -516,7 +522,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	size
 	{
-		"Button Size",
+		get_local_language("Button Size"),
 		[this](uint32_t idx)
 		{
 			return sizeStr;
@@ -532,7 +538,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	deadzone
 	{
-		"Deadzone",
+		get_local_language("Deadzone"),
 		findIdxInArrayOrDefault(touchDpadDeadzoneMenuVal, (uint)optionTouchDpadDeadzone, 0),
 		deadzoneItem
 	},
@@ -546,7 +552,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	diagonalSensitivity
 	{
-		"Diagonal Sensitivity",
+		get_local_language("Diagonal Sensitivity"),
 		findIdxInArrayOrDefault(touchDpadDiagonalSensitivityMenuVal, (uint)optionTouchDpadDiagonalSensitivity, 0),
 		diagonalSensitivityItem
 	},
@@ -559,7 +565,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	btnSpace
 	{
-		"Spacing",
+		get_local_language("Spacing"),
 		findIdxInArrayOrDefault(touchCtrlBtnSpaceMenuVal, (uint)optionTouchCtrlBtnSpace, 0),
 		btnSpaceItem
 	},
@@ -572,7 +578,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	btnExtraXSize
 	{
-		"H Overlap",
+		get_local_language("H Overlap"),
 		findIdxInArrayOrDefault(touchCtrlExtraXBtnSizeMenuVal, (uint)optionTouchCtrlExtraXBtnSize, 0),
 		btnExtraXSizeItem
 	},
@@ -587,7 +593,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	btnExtraYSizeMultiRow
 	{
 		(EmuSystem::inputFaceBtns == 4 || (EmuSystem::inputFaceBtns >= 6 && EmuSystem::inputHasTriggerBtns))
-			? "V Overlap" : "V Overlap (2 rows)",
+			? get_local_language("V Overlap") : get_local_language("V Overlap (2 rows)"),
 		findIdxInArrayOrDefault(touchCtrlExtraXBtnSizeMenuVal, (uint)optionTouchCtrlExtraYBtnSizeMultiRow, 0),
 		btnExtraYSizeMultiRowItem
 	},
@@ -600,13 +606,13 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	btnExtraYSize
 	{
-		"V Overlap",
+		get_local_language("V Overlap"),
 		findIdxInArrayOrDefault(touchCtrlExtraYBtnSizeMenuVal, (uint)optionTouchCtrlExtraYBtnSize, 0),
 		btnExtraYSizeItem
 	},
 	triggerPos
 	{
-		"Inline L/R",
+		get_local_language("Inline L/R"),
 		(bool)optionTouchCtrlTriggerBtnPos,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -625,7 +631,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	btnStagger
 	{
-		"Stagger",
+		get_local_language("Stagger"),
 		(int)optionTouchCtrlBtnStagger,
 		btnStaggerItem
 	},
@@ -637,7 +643,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	dPadState
 	{
-		"D-Pad",
+		get_local_language("D-Pad"),
 		(int)layoutPosArr(window())[0].state,
 		dPadStateItem
 	},
@@ -691,7 +697,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	boundingBoxes
 	{
-		"Show Bounding Boxes",
+		get_local_language("Show Bounding Boxes"),
 		(bool)optionTouchCtrlBoundingBoxes,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -702,7 +708,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	vibrate
 	{
-		"Vibration",
+		get_local_language("Vibration"),
 		(bool)optionVibrateOnPush,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -712,9 +718,9 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 		#ifdef CONFIG_BASE_ANDROID
 		useScaledCoordinates
 		{
-			"Size Units",
+			get_local_language("Size Units"),
 			(bool)optionTouchCtrlScaledCoordinates,
-			"Physical (Millimeters)", "Scaled Points",
+			get_local_language("Physical (Millimeters)", "Scaled Points"),
 			[this](BoolMenuItem &item, Input::Event e)
 			{
 				optionTouchCtrlScaledCoordinates = item.flipBoolValue(*this);
@@ -725,7 +731,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 		#endif
 	showOnTouch
 	{
-		"Show Gamepad If Screen Touched",
+		get_local_language("Show Gamepad If Screen Touched"),
 		(bool)optionTouchCtrlShowOnTouch,
 		[this](BoolMenuItem &item, Input::Event e)
 		{
@@ -744,13 +750,13 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	alpha
 	{
-		"Blend Amount",
+		get_local_language("Blend Amount"),
 		findIdxInArrayOrDefault(alphaMenuVal, optionTouchCtrlAlpha.val, 3),
 		alphaItem
 	},
 	btnPlace
 	{
-		"Set Button Positions",
+		get_local_language("Set Button Positions"),
 		[this](Input::Event e)
 		{
 			auto onScreenInputPlace = makeView<OnScreenInputPlaceView>();
@@ -766,7 +772,7 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	menuState
 	{
-		"Open Menu Button",
+		get_local_language("Open Menu Button"),
 		(int)layoutPosArr(window())[3].state,
 		[](const MultiChoiceMenuItem &) -> int
 		{
@@ -785,16 +791,16 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	ffState
 	{
-		"Fast-forward Button",
+		get_local_language("Fast-forward Button"),
 		(int)layoutPosArr(window())[4].state,
 		ffStateItem
 	},
 	resetControls
 	{
-		"Reset Position & Spacing Options",
+		get_local_language("Reset Position & Spacing Options"),
 		[this](Input::Event e)
 		{
-			auto ynAlertView = makeView<YesNoAlertView>("Reset buttons to default positions & spacing?");
+			auto ynAlertView = makeView<YesNoAlertView>(get_local_language("Reset buttons to default positions & spacing?"));
 			ynAlertView->setOnYes(
 				[this](TextMenuItem &, View &view, Input::Event e)
 				{
@@ -808,10 +814,10 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	resetAllControls
 	{
-		"Reset All Options",
+		get_local_language("Reset All Options"),
 		[this](Input::Event e)
 		{
-			auto ynAlertView = makeView<YesNoAlertView>("Reset all on-screen control options to default?");
+			auto ynAlertView = makeView<YesNoAlertView>(get_local_language("Reset all on-screen control options to default?"));
 			ynAlertView->setOnYes(
 				[this](TextMenuItem &, View &view, Input::Event e)
 				{
@@ -825,19 +831,19 @@ TouchConfigView::TouchConfigView(ViewAttachParams attach, VController &vControll
 	},
 	btnTogglesHeading
 	{
-		"Individual Button Toggles"
+		get_local_language("Individual Button Toggles")
 	},
 	dpadtHeading
 	{
-		"D-Pad Options"
+		get_local_language("D-Pad Options")
 	},
 	faceBtnHeading
 	{
-		"Face Button Layout"
+		get_local_language("Face Button Layout")
 	},
 	otherHeading
 	{
-		"Other Options"
+		get_local_language("Other Options")
 	}
 {
 	#ifdef CONFIG_VCONTROLS_GAMEPAD
