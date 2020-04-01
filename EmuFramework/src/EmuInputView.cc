@@ -17,6 +17,7 @@
 #include <emuframework/VController.hh>
 #include <emuframework/EmuApp.hh>
 #include <emuframework/EmuVideoLayer.hh>
+#include <emuframework/language/language.hh>
 #include "EmuOptions.hh"
 #include <imagine/gui/AlertView.hh>
 #include <emuframework/FilePicker.hh>
@@ -166,7 +167,7 @@ bool EmuInputView::inputEvent(Input::Event e)
 									EmuApp::printfMessage(4, true, "Save State: %s", err->what());
 								}
 								else
-									EmuApp::postMessage("State Saved");
+									EmuApp::postMessage(get_local_language("State Saved"));
 							};
 
 						if(EmuSystem::shouldOverwriteExistingState())
@@ -176,7 +177,7 @@ bool EmuInputView::inputEvent(Input::Event e)
 						}
 						else
 						{
-							auto ynAlertView = makeView<YesNoAlertView>("Really Overwrite State?");
+							auto ynAlertView = makeView<YesNoAlertView>(get_local_language("Really Overwrite State?"));
 							ynAlertView->setOnYes(
 								[](TextMenuItem &, View &view, Input::Event e)
 								{
