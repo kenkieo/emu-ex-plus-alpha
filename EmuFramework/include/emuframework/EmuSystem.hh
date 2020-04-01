@@ -23,6 +23,7 @@
 #include <imagine/input/Input.hh>
 #include <imagine/util/string.h>
 #include <emuframework/config.hh>
+#include <emuframework/language/language.hh>
 #include <optional>
 #include <stdexcept>
 
@@ -38,7 +39,7 @@ struct AspectRatioInfo
 	IG::Point2D<uint> aspect;
 };
 
-#define EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT {"1:1", 1, 1}, {"Full Screen", 0, 1}
+#define EMU_SYSTEM_DEFAULT_ASPECT_RATIO_INFO_INIT {"1:1", 1, 1}, {get_local_language("Full Screen"), 0, 1}
 
 struct BundledGameInfo
 {
@@ -238,6 +239,6 @@ public:
 static const char *stateNameStr(int slot)
 {
 	assert(slot >= -1 && slot < 10);
-	static const char *str[] = { "Auto", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+	static const char *str[] = { get_local_language("Auto"), "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 	return str[slot+1];
 }
