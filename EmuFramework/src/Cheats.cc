@@ -15,6 +15,7 @@
 
 #include <emuframework/Cheats.hh>
 #include <emuframework/EmuApp.hh>
+#include <emuframework/language/language.hh>
 #include <imagine/gui/TextEntry.hh>
 #include <imagine/logger/logger.h>
 #include "private.hh"
@@ -24,7 +25,7 @@ static StaticArrayList<RefreshCheatsDelegate*, 2> onRefreshCheatsList;
 BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 	TableView
 	{
-		"Cheats",
+		get_local_language("Cheats"),
 		attach,
 		[this](const TableView &)
 		{
@@ -40,7 +41,7 @@ BaseCheatsView::BaseCheatsView(ViewAttachParams attach):
 	},
 	edit
 	{
-		"Add/Edit",
+		get_local_language("Add/Edit"),
 		[this](Input::Event e)
 		{
 			pushAndShow(makeEmuView(attachParams(), EmuApp::ViewID::EDIT_CHEATS), e);
@@ -80,7 +81,7 @@ BaseEditCheatView::BaseEditCheatView(const char *viewName, ViewAttachParams atta
 		cheatName,
 		[this](Input::Event e)
 		{
-			EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, "Input description", name.name(),
+			EmuApp::pushAndShowNewCollectValueInputView<const char*>(attachParams(), e, get_local_language("Input description"), name.name(),
 				[this](auto str)
 				{
 					logMsg("setting cheat name %s", str);
@@ -93,7 +94,7 @@ BaseEditCheatView::BaseEditCheatView(const char *viewName, ViewAttachParams atta
 	},
 	remove
 	{
-		"Delete Cheat",
+		get_local_language("Delete Cheat"),
 		removed
 	}
 {}
@@ -101,7 +102,7 @@ BaseEditCheatView::BaseEditCheatView(const char *viewName, ViewAttachParams atta
 BaseEditCheatListView::BaseEditCheatListView(ViewAttachParams attach, TableView::ItemsDelegate items, TableView::ItemDelegate item):
 	TableView
 	{
-		"Edit Cheats",
+		get_local_language("Edit Cheats"),
 		attach,
 		items,
 		item
