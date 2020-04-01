@@ -16,6 +16,7 @@
 #include <emuframework/ButtonConfigView.hh>
 #include <emuframework/inGameActionKeys.hh>
 #include <emuframework/InputManagerView.hh>
+#include <emuframework/language/language.hh>
 #include <emuframework/EmuApp.hh>
 #include <imagine/gui/AlertView.hh>
 #include <imagine/util/math/int.hh>
@@ -39,7 +40,7 @@ public:
 	KeyConflictAlertView(ViewAttachParams attach, const char *label):
 		AlertView(attach, label, 3)
 	{
-		setItem(2, "Cancel", [](TextMenuItem &, View &view, Input::Event){ view.dismiss(); });
+		setItem(2, get_local_language("Cancel"), [](TextMenuItem &, View &view, Input::Event){ view.dismiss(); });
 	}
 };
 
@@ -55,8 +56,8 @@ void ButtonConfigSetView::initPointerUI()
 	{
 		logMsg("init pointer UI elements");
 		waitForDrawFinished();
-		unbind = {"Unbind", &View::defaultFace};
-		cancel = {"Cancel", &View::defaultFace};
+		unbind = {get_local_language("Unbind"), &View::defaultFace};
+		cancel = {get_local_language("Cancel"), &View::defaultFace};
 		unbindB.x2 = 1;
 	}
 }
@@ -309,10 +310,10 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 	rootIMView{rootIMView_},
 	reset
 	{
-		"Unbind All",
+		get_local_language("Unbind All"),
 		[this](Input::Event e)
 		{
-			auto ynAlertView = makeView<YesNoAlertView>("Really unbind all keys in this category?");
+			auto ynAlertView = makeView<YesNoAlertView>(get_local_language("Really unbind all keys in this category?"));
 			ynAlertView->setOnYes(
 				[this](TextMenuItem &, View &view, Input::Event e)
 				{
@@ -367,7 +368,7 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 									conflictCat->keyName[conflictKey]);
 								auto alertView = makeView<KeyConflictAlertView>(conflictStr.data());
 								alertView->ctx = {mapKey, keyToSet, conflictCat, conflictKey};
-								alertView->setItem(0, "Yes",
+								alertView->setItem(0, get_local_language("Yes"),
 									[this, ctx = &alertView->ctx](TextMenuItem &, View &view, Input::Event)
 									{
 										if(ctx->conflictCat == this->cat)
@@ -377,7 +378,7 @@ ButtonConfigView::ButtonConfigView(ViewAttachParams attach, InputManagerView &ro
 										onSet(ctx->mapKey, ctx->keyToSet);
 										view.dismiss();
 									});
-								alertView->setItem(1, "No",
+								alertView->setItem(1, get_local_language("No"),
 									[this, ctx = &alertView->ctx](TextMenuItem &, View &view, Input::Event)
 									{
 										onSet(ctx->mapKey, ctx->keyToSet);
