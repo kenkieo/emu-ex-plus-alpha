@@ -262,7 +262,7 @@ static std::map<std::string, std::string> language_zh = {
     {"Set In-Game Actions","在游戏中设置操作"},
     {"Set Gamepad Keys","设置游戏键盘"},
     {"iCade Mode","iCade模式"},
-    {"Install the MOGA Pivot app from Google Play to use your MOGA Pocket.For MOGA Pro or newer,set switch to mode B and pair in the Android Bluetooth settings app instead.","从Google Play安装MOGA Pivot应用程序以使用你的MOGA Pocket.对于MOGA Pro或更新版本,请将切换设置为模式B,然后在Android蓝牙设置应用程序中配对."}
+    {"Install the MOGA Pivot app from Google Play to use your MOGA Pocket.For MOGA Pro or newer,set switch to mode B and pair in the Android Bluetooth settings app instead.","从Google Play安装MOGA Pivot应用程序以使用你的MOGA Pocket.对于MOGA Pro或更新版本,请将切换设置为模式B,然后在Android蓝牙设置应用程序中配对."},
     {"Frame Rate","帧率"},
     {"Frame Rate(PAL)","帧率(PAL)"},
     {"(Original)","(原始)"},
