@@ -21,6 +21,7 @@
 #include <imagine/logger/logger.h>
 #include <imagine/util/math/int.hh>
 #include <imagine/util/string.h>
+#include <imagine/language/language.hh>
 #include <string>
 
 static bool isValidRootEndChar(char c)
@@ -241,7 +242,7 @@ std::error_code FSPicker::setPath(const char *path, bool forcePathChange, FS::Ro
 		if(ec)
 			string_printf(msgStr, "Can't open directory:\n%s", ec.message().c_str());
 		else
-			string_copy(msgStr, "Empty Directory");
+			string_copy(msgStr, get_local_language("Empty Directory"));
 	}
 	if(!e.isPointer())
 		static_cast<TableView*>(&controller.top())->highlightCell(0);

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:paddingTop="0dp"
+            android:scrollbars="none">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <TextView android:id="@+id/activity_main_PPSSPSS" style="@style/item_text" android:text="PPSSPP"/>
+        <TextView android:id="@+id/activity_main_2600" style="@style/item_text" android:text="2600 EMU"/>
+        <TextView android:id="@+id/activity_main_C64" style="@style/item_text" android:text="C64 EMU"/>
+        <TextView android:id="@+id/activity_main_GBA" style="@style/item_text" android:text="GBA EMU"/>
+        <TextView android:id="@+id/activity_main_GBC" style="@style/item_text" android:text="GBC EMU"/>
+        <TextView android:id="@+id/activity_main_MD" style="@style/item_text" android:text="MD EMU"/>
+        <TextView android:id="@+id/activity_main_MSX" style="@style/item_text" android:text="MSX EMU"/>
+        <TextView android:id="@+id/activity_main_NEO" style="@style/item_text" android:text="NEO EMU"/>
+        <TextView android:id="@+id/activity_main_NES" style="@style/item_text" android:text="NES EMU"/>
+        <TextView android:id="@+id/activity_main_NGP" style="@style/item_text" android:text="NGP EMU"/>
+        <TextView android:id="@+id/activity_main_PCE" style="@style/item_text" android:text="PCE EMU"/>
+        <TextView android:id="@+id/activity_main_Snes9x" style="@style/item_text" android:text="Snes9x EMU"/>
+        <TextView android:id="@+id/activity_main_Snes9x_143" style="@style/item_text" android:text="Snes9x 143 EMU"/>
+    </LinearLayout>
+</ScrollView>

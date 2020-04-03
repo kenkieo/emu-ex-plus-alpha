@@ -23,7 +23,7 @@
 #include <imagine/fs/FSDefs.hh>
 #include <emuframework/EmuSystem.hh>
 #include <imagine/util/typeTraits.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 
 class EmuApp
 {

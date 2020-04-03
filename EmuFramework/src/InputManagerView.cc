@@ -16,7 +16,7 @@
 #include <emuframework/InputManagerView.hh>
 #include <emuframework/ButtonConfigView.hh>
 #include <emuframework/EmuApp.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include "EmuOptions.hh"
 #include <imagine/gui/TextEntry.hh>
 #include <imagine/gui/TextTableView.hh>

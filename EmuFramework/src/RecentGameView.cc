@@ -15,7 +15,7 @@
 
 #include <emuframework/RecentGameView.hh>
 #include <emuframework/Recent.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include "private.hh"
 
 RecentGameView::RecentGameView(ViewAttachParams attach):

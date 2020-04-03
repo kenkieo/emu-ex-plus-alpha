@@ -15,7 +15,7 @@
 
 #include <emuframework/Cheats.hh>
 #include <emuframework/EmuApp.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include <imagine/gui/TextEntry.hh>
 #include <imagine/logger/logger.h>
 #include "private.hh"

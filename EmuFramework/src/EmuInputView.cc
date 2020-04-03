@@ -17,7 +17,7 @@
 #include <emuframework/VController.hh>
 #include <emuframework/EmuApp.hh>
 #include <emuframework/EmuVideoLayer.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include "EmuOptions.hh"
 #include <imagine/gui/AlertView.hh>
 #include <emuframework/FilePicker.hh>

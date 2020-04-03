@@ -16,7 +16,7 @@
 #include <emuframework/BundledGamesView.hh>
 #include <emuframework/EmuApp.hh>
 #include <emuframework/FilePicker.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include <imagine/logger/logger.h>
 #include <imagine/io/FileIO.hh>
 #include <imagine/io/BufferMapIO.hh>

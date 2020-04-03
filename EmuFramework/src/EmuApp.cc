@@ -21,7 +21,7 @@
 #include <emuframework/EmuLoadProgressView.hh>
 #include <emuframework/EmuVideoLayer.hh>
 #include <emuframework/FileUtils.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include <imagine/base/Base.hh>
 #include <imagine/gui/ToastView.hh>
 #include <imagine/gui/AlertView.hh>

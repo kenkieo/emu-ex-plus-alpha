@@ -260,7 +260,7 @@ void GUIOptionView::setFontSize(uint16_t val)
 template <size_t S>
 static void printPathMenuEntryStr(PathOption optionSavePath, char (&str)[S])
 {
-	string_printf(str, "Save Path: %s", savePathStrToDescStr(optionSavePath).data());
+	string_printf(str, get_local_language("Save Path: %s"), savePathStrToDescStr(optionSavePath).data());
 }
 
 class DetectFrameRateView : public View

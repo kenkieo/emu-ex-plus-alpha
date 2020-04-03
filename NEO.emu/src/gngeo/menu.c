@@ -49,7 +49,7 @@
 #include "fileio.h"
 #include "sound.h"
 #include "effect.h"
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 
 #if defined (WII)
 #define ROOTPATH "sd:/apps/gngeo/"

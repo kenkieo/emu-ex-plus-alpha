@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_common_white">#ffffffff</color>
+    <color name="color_common_white_pre">#80FFFFFF</color>
+    <color name="color_bg">#f4f4f4</color>
+    <color name="color_bg_80">#A0f4f4f4</color>
+    <color name="color_bg_light">#F2f9fe</color>
+    <color name="color_line">#EBEBEB</color>
+    <color name="color_line_pre">#80efefef</color>
+    <color name="color_ripple">#dedede</color>
+    <color name="color_transparent">#00000000</color>
+    <color name="color_transparent_10">#10000000</color>
+    <color name="color_transparent_70">#b2000000</color>
+    <color name="color_translucence">#80000000</color>
+    <color name="color_translucence_60">#99000000</color>
+    <color name="color_translucence_40">#64000000</color>
+    <color name="color_transparent_light">#30000000</color>
+    <color name="color_transparent_deep">#B0000000</color>
+
+    <color name="color_text">#333333</color>
+    <color name="color_text_c">#cccccc</color>
+    <color name="color_text_gray">#666666</color>
+    <color name="color_text_gray_light">#999999</color>
+    <color name="color_text_BBBBBB">#BBBBBB</color>
+    <color name="color_text_CFCFCF">#CFCFCF</color>
+    <color name="color_text_gray_light_10">#10999999</color>
+    <color name="color_text_guide">#bcdcff</color>
+    <color name="color_text_search">#BBBBBB</color>
+    <color name="color_text_main">#ADADAD</color>
+    <color name="color_text_dlg_gray">#BCBCBC</color>
+
+    <color name="color_c8c8c8">#c8c8c8</color>
+    <color name="color_yellow_light">#f2b442</color>
+    <color name="color_yellow_light_pre">#80f2b442</color>
+    <color name="color_blue">#4090f7</color>
+    <color name="color_blue_down">#7bc0ff</color>
+    <color name="color_yellow">#ffde40</color>
+    <color name="color_yellow_pre">#80FFde40</color>
+    <color name="color_red">#ff5263</color>
+    <color name="color_red_deep">#FFFB4B55</color>
+    <color name="color_black_deep">#FF000000</color>
+    <color name="color_black">#333333</color>
+    <color name="color_black_pre">#80333333</color>
+    <color name="color_gray">#e6e6e6</color>
+    <color name="color_blue_80">#805aadf8</color>
+    <color name="color_blue_tag">#FFEEEEEE</color>
+    <color name="color_blue_tag_stroke">#FFD3D3d3</color>
+    <color name="color_blue_tag_pre">#10EEEEEE</color>
+    <color name="color_public_platform">#323232</color>
+    <color name="color_public_platform_pre">#80323232</color>
+    <color name="color_game_update_bg">#f7f8f9</color>
+    <color name="color_home_attention_header_item_nor">#FFf6f7f9</color>
+    <color name="color_home_attention_header_item_pre">#80f7f7f9</color>
+    <color name="color_game_reserve_bg">#c3c3c3</color>
+    <color name="color_gift_get_success">#c3c3c3</color>
+
+    <color name="color_comment_reply_bg">#f4f4f4</color>
+    <color name="color_game_info_editor_notice_bg">#ffefe5</color>
+    <color name="color_game_info_adapter_bg">#f7f7f6</color>
+    <color name="color_game_info_item_bg">#f4f6fc</color>
+
+    <color name="color_face_indicator_normal">@color/color_line</color>
+    <color name="color_face_indicator_select">@color/color_blue</color>
+    <color name="color_archive_cover_bg">#A0ffffff</color>
+    <color name="color_video_item_bg">#20000000</color>
+    <color name="color_game_speed_detail_stop">#100b14</color>
+    <color name="color_game_speed_detail_stop_pre">#80100b14</color>
+
+    <color name="color_game_home_tag_indicator_nor">#FFe8e8e8</color>
+    <color name="color_game_home_tag_indicator_pre">#FF5c5c5c</color>
+
+    <color name="color_game_detail_speed_btn">#FF5a6df8</color>
+    <color name="color_game_detail_speed_btn_pre">#805a6df8</color>
+
+    <color name="color_consumption_above_zero">@color/color_red</color>
+    <color name="color_consumption_below_zero">#45d5b2</color>
+    <color name="color_store_address_bg">#FF3b68eb</color>
+    <color name="color_game_bt_bg">#FFf3faff</color>
+    <color name="color_f6f7f9">#FFf6f7f9</color>
+    <color name="color_f8f8f8">#FFf8f8f8</color>
+    <color name="color_CFCFCF">#FFCFCFCF</color>
+    <color name="color_f9f9f9">#f9f9f9</color>
+    <color name="color_f2f2f2">#FFF2F2F2</color>
+    <color name="color_bcbcbc">#FFbcbcbc</color>
+    <color name="color_game_search_input_color">#96ffffff</color>
+    
+    <color name="color_reserve">#FFF6D04A</color>
+    <color name="color_reserve_pre">#80F6D04A</color>
+    <color name="color_install">@color/color_red_deep</color>
+    <color name="color_install_pre">#80FB4B55</color>
+</resources>

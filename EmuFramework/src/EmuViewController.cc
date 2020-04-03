@@ -18,7 +18,7 @@
 #include <emuframework/EmuView.hh>
 #include <emuframework/EmuVideoLayer.hh>
 #include <emuframework/FilePicker.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include <imagine/base/Base.hh>
 #include <imagine/gui/AlertView.hh>
 #include <imagine/gui/ToastView.hh>

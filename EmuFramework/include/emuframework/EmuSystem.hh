@@ -23,7 +23,7 @@
 #include <imagine/input/Input.hh>
 #include <imagine/util/string.h>
 #include <emuframework/config.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include <optional>
 #include <stdexcept>
 

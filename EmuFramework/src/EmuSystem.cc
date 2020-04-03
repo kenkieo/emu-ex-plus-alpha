@@ -19,7 +19,7 @@
 #include <emuframework/EmuAudio.hh>
 #include <emuframework/FileUtils.hh>
 #include <emuframework/FilePicker.hh>
-#include <emuframework/language/language.hh>
+#include <imagine/language/language.hh>
 #include <imagine/base/Base.hh>
 #include <imagine/fs/ArchiveFS.hh>
 #include <imagine/util/utility.h>
